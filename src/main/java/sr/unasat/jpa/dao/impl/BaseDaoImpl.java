@@ -1,5 +1,6 @@
 package sr.unasat.jpa.dao.impl;
 
+import sr.unasat.jpa.config.JPAConfiguration;
 import sr.unasat.jpa.dao.BaseDao;
 
 import javax.persistence.EntityManager;
@@ -16,12 +17,17 @@ abstract class BaseDaoImpl<E> implements BaseDao<E> {
     void beginTransaction() {
         EntityTransaction transaction = this.entityManager.getTransaction();
 
-        if (!transaction.isActive()) {
-            transaction.begin();
-        } else {
+        if (transaction.isActive()) {
+            //Roll back transaction
             transaction.rollback();
+
+            //Restart the connection
+            this.entityManager.close();
+            this.entityManager = JPAConfiguration.getEntityManager();
             beginTransaction();
         }
+
+        transaction.begin();
     }
 
     EntityTransaction getTransaction() {
