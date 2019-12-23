@@ -13,7 +13,7 @@ public class HardwareConfigDao extends BaseDaoImpl<HardwareConfig> {
     }
 
     @Override
-    public List<HardwareConfig> selectAll() {
+    public List<HardwareConfig> findAll() {
         this.beginTransaction();
         String jpql = "select h from HardwareConfig h";
         TypedQuery<HardwareConfig> query = this.entityManager.createQuery(jpql, HardwareConfig.class);
@@ -23,7 +23,7 @@ public class HardwareConfigDao extends BaseDaoImpl<HardwareConfig> {
     }
 
     @Override
-    public HardwareConfig selectById(Long id) {
+    public HardwareConfig findById(Long id) {
         this.beginTransaction();
         String jpql = "select h from HardwareConfig h where h.id = :id";
         TypedQuery<HardwareConfig> query = this.entityManager.createQuery(jpql, HardwareConfig.class);
@@ -31,10 +31,5 @@ public class HardwareConfigDao extends BaseDaoImpl<HardwareConfig> {
         HardwareConfig brand = query.getSingleResult();
         this.getTransaction().commit();
         return brand;
-    }
-
-    @Override
-    public HardwareConfig deleteById(Long id) {
-        return null;
     }
 }

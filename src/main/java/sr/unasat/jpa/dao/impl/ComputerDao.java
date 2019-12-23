@@ -13,7 +13,7 @@ public class ComputerDao extends BaseDaoImpl<Computer> {
     }
 
     @Override
-    public List<Computer> selectAll() {
+    public List<Computer> findAll() {
         this.beginTransaction();
         String jpql = "select c from Computer c";
         TypedQuery<Computer> query = this.entityManager.createQuery(jpql, Computer.class);
@@ -23,7 +23,7 @@ public class ComputerDao extends BaseDaoImpl<Computer> {
     }
 
     @Override
-    public Computer selectById(Long id) {
+    public Computer findById(Long id) {
         this.beginTransaction();
         String jpql = "select c from Computer c where c.id = :id";
         TypedQuery<Computer> query = this.entityManager.createQuery(jpql, Computer.class);
@@ -31,10 +31,5 @@ public class ComputerDao extends BaseDaoImpl<Computer> {
         Computer brand = query.getSingleResult();
         this.getTransaction().commit();
         return brand;
-    }
-
-    @Override
-    public Computer deleteById(Long id) {
-        return null;
     }
 }

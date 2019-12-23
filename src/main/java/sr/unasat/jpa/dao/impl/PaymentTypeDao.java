@@ -13,7 +13,7 @@ public class PaymentTypeDao extends BaseDaoImpl<PaymentType> {
     }
 
     @Override
-    public List<PaymentType> selectAll() {
+    public List<PaymentType> findAll() {
         this.beginTransaction();
         String jpql = "select pt from PaymentType pt";
         TypedQuery<PaymentType> query = this.entityManager.createQuery(jpql, PaymentType.class);
@@ -23,7 +23,7 @@ public class PaymentTypeDao extends BaseDaoImpl<PaymentType> {
     }
 
     @Override
-    public PaymentType selectById(Long id) {
+    public PaymentType findById(Long id) {
         this.beginTransaction();
         String jpql = "select pt from PaymentType pt where pt.id = :id";
         TypedQuery<PaymentType> query = this.entityManager.createQuery(jpql, PaymentType.class);
@@ -31,10 +31,5 @@ public class PaymentTypeDao extends BaseDaoImpl<PaymentType> {
         PaymentType brand = query.getSingleResult();
         this.getTransaction().commit();
         return brand;
-    }
-
-    @Override
-    public PaymentType deleteById(Long id) {
-        return null;
     }
 }

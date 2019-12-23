@@ -13,7 +13,7 @@ public class UserDao extends BaseDaoImpl<User> {
     }
 
     @Override
-    public List<User> selectAll() {
+    public List<User> findAll() {
         this.beginTransaction();
         String jpql = "select u from User u";
         TypedQuery<User> query = this.entityManager.createQuery(jpql, User.class);
@@ -23,7 +23,7 @@ public class UserDao extends BaseDaoImpl<User> {
     }
 
     @Override
-    public User selectById(Long id) {
+    public User findById(Long id) {
         this.beginTransaction();
         String jpql = "select u from User u where u.id = :id";
         TypedQuery<User> query = this.entityManager.createQuery(jpql, User.class);
@@ -31,10 +31,5 @@ public class UserDao extends BaseDaoImpl<User> {
         User brand = query.getSingleResult();
         this.getTransaction().commit();
         return brand;
-    }
-
-    @Override
-    public User deleteById(Long id) {
-        return null;
     }
 }

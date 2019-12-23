@@ -13,7 +13,7 @@ public class CategoryDao extends BaseDaoImpl<Category> {
     }
 
     @Override
-    public List<Category> selectAll() {
+    public List<Category> findAll() {
         this.beginTransaction();
         String jpql = "select c from Category c";
         TypedQuery<Category> query = this.entityManager.createQuery(jpql, Category.class);
@@ -23,7 +23,7 @@ public class CategoryDao extends BaseDaoImpl<Category> {
     }
 
     @Override
-    public Category selectById(Long id) {
+    public Category findById(Long id) {
         this.beginTransaction();
         String jpql = "select c from Category c where c.id = :id";
         TypedQuery<Category> query = this.entityManager.createQuery(jpql, Category.class);
@@ -31,10 +31,5 @@ public class CategoryDao extends BaseDaoImpl<Category> {
         Category brand = query.getSingleResult();
         this.getTransaction().commit();
         return brand;
-    }
-
-    @Override
-    public Category deleteById(Long id) {
-        return null;
     }
 }

@@ -13,7 +13,7 @@ public class BrandDao extends BaseDaoImpl<Brand> {
     }
 
     @Override
-    public List<Brand> selectAll() {
+    public List<Brand> findAll() {
         this.beginTransaction();
         String jpql = "select b from Brand b";
         TypedQuery<Brand> query = this.entityManager.createQuery(jpql, Brand.class);
@@ -23,7 +23,7 @@ public class BrandDao extends BaseDaoImpl<Brand> {
     }
 
     @Override
-    public Brand selectById(Long id) {
+    public Brand findById(Long id) {
         this.beginTransaction();
         String jpql = "select b from Brand b where b.id = :id";
         TypedQuery<Brand> query = this.entityManager.createQuery(jpql, Brand.class);
@@ -31,10 +31,5 @@ public class BrandDao extends BaseDaoImpl<Brand> {
         Brand brand = query.getSingleResult();
         this.getTransaction().commit();
         return brand;
-    }
-
-    @Override
-    public Brand deleteById(Long id) {
-        return null;
     }
 }

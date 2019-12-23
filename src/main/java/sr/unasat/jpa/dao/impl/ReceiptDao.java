@@ -13,7 +13,7 @@ public class ReceiptDao extends BaseDaoImpl<Receipt> {
     }
 
     @Override
-    public List<Receipt> selectAll() {
+    public List<Receipt> findAll() {
         this.beginTransaction();
         String jpql = "select r from Receipt r";
         TypedQuery<Receipt> query = this.entityManager.createQuery(jpql, Receipt.class);
@@ -23,7 +23,7 @@ public class ReceiptDao extends BaseDaoImpl<Receipt> {
     }
 
     @Override
-    public Receipt selectById(Long id) {
+    public Receipt findById(Long id) {
         this.beginTransaction();
         String jpql = "select r from Receipt r where r.id = :id";
         TypedQuery<Receipt> query = this.entityManager.createQuery(jpql, Receipt.class);
@@ -31,10 +31,5 @@ public class ReceiptDao extends BaseDaoImpl<Receipt> {
         Receipt brand = query.getSingleResult();
         this.getTransaction().commit();
         return brand;
-    }
-
-    @Override
-    public Receipt deleteById(Long id) {
-        return null;
     }
 }
