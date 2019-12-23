@@ -1,6 +1,7 @@
 package sr.unasat.jpa.entity;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table
@@ -63,5 +64,29 @@ public class User {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) return true;
+        if (object == null || getClass() != object.getClass()) return false;
+        User user = (User) object;
+        return getFirstName().equals(user.getFirstName()) &&
+                       getLastName().equals(user.getLastName()) &&
+                       getIdNumber().equals(user.getIdNumber());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getFirstName(), getLastName(), getIdNumber());
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                       "firstName='" + firstName + '\'' +
+                       ", lastName='" + lastName + '\'' +
+                       ", idNumber='" + idNumber + '\'' +
+                       '}';
     }
 }

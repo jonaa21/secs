@@ -2,6 +2,7 @@ package sr.unasat.jpa.entity;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 
 @Table
 @Entity
@@ -88,5 +89,30 @@ public class Hardware {
 
     public void setCategories(List<Category> categories) {
         this.categories = categories;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) return true;
+        if (object == null || getClass() != object.getClass()) return false;
+        Hardware hardware = (Hardware) object;
+        return getName().equals(hardware.getName()) &&
+                       getPrice().equals(hardware.getPrice()) &&
+                       getBrand().equals(hardware.getBrand());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getName(), getPrice(), getBrand());
+    }
+
+    @Override
+    public String toString() {
+        return "Hardware{" +
+                       "name='" + name + '\'' +
+                       ", size=" + size +
+                       ", price=" + price +
+                       ", brand=" + brand +
+                       '}';
     }
 }

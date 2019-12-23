@@ -1,6 +1,7 @@
 package sr.unasat.jpa.entity;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Table
 @Entity
@@ -38,5 +39,27 @@ public class Customer {
 
     public void setCustomerNumber(String customerNumber) {
         this.customerNumber = customerNumber;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) return true;
+        if (object == null || getClass() != object.getClass()) return false;
+        Customer customer = (Customer) object;
+        return getUser().equals(customer.getUser()) &&
+                       getCustomerNumber().equals(customer.getCustomerNumber());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getUser(), getCustomerNumber());
+    }
+
+    @Override
+    public String toString() {
+        return "Customer{" +
+                       "user=" + user +
+                       ", customerNumber='" + customerNumber + '\'' +
+                       '}';
     }
 }
