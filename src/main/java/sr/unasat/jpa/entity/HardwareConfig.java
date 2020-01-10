@@ -1,8 +1,10 @@
 package sr.unasat.jpa.entity;
 
+import sr.unasat.jpa.designPatterns.builder.Builder;
+
 import javax.persistence.*;
 
-@Table
+@Table(name = "hardware_config")
 @Entity
 public class HardwareConfig {
 
@@ -17,6 +19,9 @@ public class HardwareConfig {
     private Computer computer;
 
     public HardwareConfig() {
+    }
+
+    public HardwareConfig(Builder builder) {
     }
 
     public Long getId() {

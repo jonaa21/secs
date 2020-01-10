@@ -1,5 +1,7 @@
 package sr.unasat.jpa.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
@@ -27,6 +29,7 @@ public class Hardware {
     @ManyToOne
     private Brand brand;
 
+    @JsonManagedReference
     @ManyToMany
     @JoinTable(name = "hardware_category", joinColumns = @JoinColumn(name = "hardware_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id"))
@@ -109,7 +112,8 @@ public class Hardware {
     @Override
     public String toString() {
         return "Hardware{" +
-                       "name='" + name + '\'' +
+                       "id=" + id +
+                       ", name='" + name + '\'' +
                        ", size=" + size +
                        ", price=" + price +
                        ", brand=" + brand +

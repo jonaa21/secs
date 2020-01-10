@@ -1,5 +1,7 @@
 package sr.unasat.jpa.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
@@ -15,6 +17,7 @@ public class Category {
     @Column(nullable = false)
     private String name;
 
+    @JsonBackReference
     @ManyToMany(mappedBy = "categories")
     private List<Hardware> hardwareList;
 

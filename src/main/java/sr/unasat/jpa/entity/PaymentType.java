@@ -3,7 +3,7 @@ package sr.unasat.jpa.entity;
 import javax.persistence.*;
 import java.util.Objects;
 
-@Table
+@Table(name = "payment_type")
 @Entity
 public class PaymentType {
 
@@ -11,8 +11,9 @@ public class PaymentType {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private String name;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "name", nullable = false)
+    private PaymentTypeName paymentType;
 
     public PaymentType() {
     }
@@ -25,12 +26,12 @@ public class PaymentType {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public PaymentTypeName getName() {
+        return paymentType;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setName(PaymentTypeName paymentTypeName) {
+        this.paymentType = paymentTypeName;
     }
 
     @Override
@@ -49,7 +50,7 @@ public class PaymentType {
     @Override
     public String toString() {
         return "PaymentType{" +
-                       "name='" + name + '\'' +
+                       "name='" + paymentType + '\'' +
                        '}';
     }
 }

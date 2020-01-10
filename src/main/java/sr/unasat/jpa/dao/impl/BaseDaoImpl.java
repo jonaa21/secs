@@ -6,18 +6,45 @@ import sr.unasat.jpa.dao.BaseDao;
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.TypedQuery;
 import java.util.Collection;
 import java.util.List;
 
 public abstract class BaseDaoImpl<E> implements BaseDao<E> {
 
-    protected EntityManager entityManager;
+    private final static String DEFAULT_FIND_ALL_QUERY = "SELECT e FROM %s e";
+    private final static String DEFAULT_FIND_BY_ID = "SELECT e FROM %s e WHERE e.id = :id";
 
-    public BaseDaoImpl(EntityManager entityManager) {
+    private EntityManager entityManager;
+    private String findAllQuery;
+    private String findByIdQuery;
+    private final Class<E> parameterizedType;
+
+    public BaseDaoImpl(EntityManager entityManager, Class<E> parameterizedType) {
         this.entityManager = entityManager;
+        this.parameterizedType = parameterizedType;
+
+        findAllQuery = String.format(DEFAULT_FIND_ALL_QUERY, parameterizedType.getCanonicalName());
+        findByIdQuery = String.format(DEFAULT_FIND_BY_ID, parameterizedType.getCanonicalName());
     }
 
-    void beginTransaction() {
+    public String getFindAllQuery() {
+        return findAllQuery;
+    }
+
+    public void setFindAllQuery(String findAllQuery) {
+        this.findAllQuery = findAllQuery;
+    }
+
+    public String getFindByIdQuery() {
+        return findByIdQuery;
+    }
+
+    public void setFindByIdQuery(String findByIdQuery) {
+        this.findByIdQuery = findByIdQuery;
+    }
+
+    private void beginTransaction() {
         EntityTransaction transaction = getTransaction();
 
         if (transaction.isActive()) {
@@ -28,8 +55,36 @@ public abstract class BaseDaoImpl<E> implements BaseDao<E> {
         transaction.begin();
     }
 
-    EntityTransaction getTransaction() {
+    private EntityTransaction getTransaction() {
         return this.entityManager.getTransaction();
+    }
+
+    /**
+     *
+     * @return list of all records from specified class
+     */
+    @Override
+    public List<E> findAll() {
+        this.beginTransaction();
+        TypedQuery<E> query = this.entityManager.createQuery(findAllQuery, parameterizedType);
+        List<E> resultList = query.getResultList();
+        this.getTransaction().commit();
+        return resultList;
+    }
+
+    /**
+     *
+     * @param id entity id in specified class
+     * @return result
+     */
+    @Override
+    public E findById(Long id) {
+        this.beginTransaction();
+        TypedQuery<E> query = this.entityManager.createQuery(findByIdQuery, parameterizedType);
+        query.setParameter("id", id);
+        E result = query.getSingleResult();
+        this.getTransaction().commit();
+        return result;
     }
 
     /**
