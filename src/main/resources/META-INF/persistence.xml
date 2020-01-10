@@ -17,7 +17,7 @@
             <property name="hibernate.hbm2ddl.auto" value="none" />
 
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
-            <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/secs?useSSL=false"/>
+            <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/secs?allowPublicKeyRetrieval=true&amp;useSSL=false"/>
             <property name="hibernate.connection.verifyServerCertificate" value="false"/>
             <property name="hibernate.connection.requireSSL" value="false"/>
             <property name="hibernate.connection.autoReconnect" value="true"/>

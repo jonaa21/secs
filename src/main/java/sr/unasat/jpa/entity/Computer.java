@@ -1,6 +1,7 @@
 package sr.unasat.jpa.entity;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Table
@@ -20,7 +21,15 @@ public class Computer {
     @ManyToMany(mappedBy = "computers")
     private Set<Receipt> receipts;
 
+    @OneToOne
+    private ComputerConfig config;
+
+    public Computer(List<Hardware> hardwareList) {
+
+    }
+
     public Computer() {
+
     }
 
     public Long getId() {
@@ -54,4 +63,14 @@ public class Computer {
     public void setReceipts(Set<Receipt> receipts) {
         this.receipts = receipts;
     }
+
+
+
+//    public List<ComputerConfig> getHardwareList() {
+//        return hardwareList;
+//    }
+//
+//    public void setHardwareList(List<ComputerConfig> configList) {
+//        this.hardwareList = configList;
+//    }
 }
