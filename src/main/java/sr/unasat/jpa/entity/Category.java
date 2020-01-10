@@ -19,7 +19,7 @@ public class Category {
 
     @JsonBackReference
     @ManyToMany(mappedBy = "categories")
-    private List<Hardware> hardwareList;
+    private List<HardwareStock> stockList;
 
     public Category() {
     }
@@ -40,12 +40,12 @@ public class Category {
         this.name = name;
     }
 
-    public List<Hardware> getHardwareList() {
-        return hardwareList;
+    public List<HardwareStock> getStockList() {
+        return stockList;
     }
 
-    public void setHardwareList(List<Hardware> hardwareList) {
-        this.hardwareList = hardwareList;
+    public void setStockList(List<HardwareStock> hardwareList) {
+        this.stockList = hardwareList;
     }
 
     @Override

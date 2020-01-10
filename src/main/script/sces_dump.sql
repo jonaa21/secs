@@ -61,7 +61,14 @@ CREATE TABLE IF NOT EXISTS `secs`.`computer`
     `id`           BIGINT(20)  NOT NULL AUTO_INCREMENT,
     `storage_type` VARCHAR(45) NOT NULL,
     `price`        DECIMAL     NULL DEFAULT 0,
-    PRIMARY KEY (`id`)
+    `config_id`    BIGINT(20)  NOT NULL,
+    PRIMARY KEY (`id`),
+    INDEX `FK_computer_ref_comp_config_idx` (`config_id` ASC) VISIBLE,
+    CONSTRAINT `FK_computer_ref_comp_config`
+        FOREIGN KEY (`config_id`)
+            REFERENCES `secs`.`computer_config` (`id`)
+            ON DELETE NO ACTION
+            ON UPDATE NO ACTION
 )
     ENGINE = InnoDB
     DEFAULT CHARACTER SET = utf8mb4
@@ -133,11 +140,11 @@ CREATE TABLE IF NOT EXISTS `secs`.`customer`
 
 
 -- -----------------------------------------------------
--- Table `secs`.`hardware`
+-- Table `secs`.`hardware_stock`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `secs`.`hardware`;
+DROP TABLE IF EXISTS `secs`.`hardware_stock`;
 
-CREATE TABLE IF NOT EXISTS `secs`.`hardware`
+CREATE TABLE IF NOT EXISTS `secs`.`hardware_stock`
 (
     `id`       BIGINT(20)     NOT NULL AUTO_INCREMENT,
     `name`     VARCHAR(45)    NOT NULL,
@@ -146,8 +153,8 @@ CREATE TABLE IF NOT EXISTS `secs`.`hardware`
     `price`    DECIMAL(10, 0) NOT NULL DEFAULT '0',
     `brand_id` BIGINT(20)     NOT NULL,
     PRIMARY KEY (`id`),
-    INDEX `FK_product_ref_brand_idx` (`brand_id` ASC) VISIBLE,
-    CONSTRAINT `FK_product_ref_brand`
+    INDEX `FK_hardware_stock_ref_brand_idx` (`brand_id` ASC) VISIBLE,
+    CONSTRAINT `FK_hardware_stock_ref_brand`
         FOREIGN KEY (`brand_id`)
             REFERENCES `secs`.`brand` (`id`)
 )
@@ -157,24 +164,45 @@ CREATE TABLE IF NOT EXISTS `secs`.`hardware`
 
 
 -- -----------------------------------------------------
--- Table `secs`.`hardware_category`
+-- Table `secs`.`hardware`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `secs`.`hardware_category`;
+DROP TABLE IF EXISTS `secs`.`hardware`;
 
-CREATE TABLE IF NOT EXISTS `secs`.`hardware_category`
+CREATE TABLE IF NOT EXISTS `secs`.`hardware`
+(
+    `id`       BIGINT(20) NOT NULL AUTO_INCREMENT,
+    `stock_id` BIGINT(20) NOT NULL,
+    `amount`   INT(11)    NOT NULL DEFAULT 0,
+    PRIMARY KEY (`id`),
+    INDEX `FK_hardware_ref_hardware_stock_idx` (`stock_id` ASC) VISIBLE,
+    CONSTRAINT `FK_hardware_ref_hardware_stock`
+        FOREIGN KEY (`stock_id`)
+            REFERENCES `secs`.`hardware_stock` (`id`)
+)
+    ENGINE = InnoDB
+    DEFAULT CHARACTER SET = utf8mb4
+    COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `secs`.`stock_category`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `secs`.`stock_category`;
+
+CREATE TABLE IF NOT EXISTS `secs`.`stock_category`
 (
     `id`          BIGINT(20) NOT NULL AUTO_INCREMENT,
-    `hardware_id` BIGINT(20) NOT NULL,
+    `stock_id` BIGINT(20) NOT NULL,
     `category_id` BIGINT(20) NOT NULL,
     PRIMARY KEY (`id`),
-    INDEX `FK_prod_cat_ref_prod_idx` (`hardware_id` ASC) VISIBLE,
-    INDEX `FK_prod_cat_ref_category_idx` (`category_id` ASC) VISIBLE,
-    CONSTRAINT `FK_hardware_cat_ref_category`
+    INDEX `FK_stock_category_ref_hardware_stock_idx` (`stock_id` ASC) VISIBLE,
+    INDEX `FK_stock_category_ref_category_idx` (`category_id` ASC) VISIBLE,
+    CONSTRAINT `FK_stock_category_ref_category`
         FOREIGN KEY (`category_id`)
             REFERENCES `secs`.`category` (`id`),
-    CONSTRAINT `FK_hardware_cat_ref_product`
-        FOREIGN KEY (`hardware_id`)
-            REFERENCES `secs`.`hardware` (`id`)
+    CONSTRAINT `FK_stock_category_ref_hardware_stock`
+        FOREIGN KEY (`stock_id`)
+            REFERENCES `secs`.`hardware_stock` (`id`)
 )
     ENGINE = InnoDB
     DEFAULT CHARACTER SET = utf8mb4
@@ -254,26 +282,12 @@ DROP TABLE IF EXISTS `secs`.`computer_config`;
 CREATE TABLE IF NOT EXISTS `secs`.`computer_config`
 (
     `id`           BIGINT(20) NOT NULL AUTO_INCREMENT,
-    `hardware_id`  BIGINT     NOT NULL,
-    `amount`       INT        NOT NULL,
     `bluetooth`    BIT(1) DEFAULT 0,
     `thunderbolt`  BIT(1) DEFAULT 0,
     `lte`          BIT(1) DEFAULT 0,
     `touch_screen` BIT(1) DEFAULT 0,
     `two_in_one`   BIT(1) DEFAULT 0,
-    `computer_id`  BIGINT     NOT NULL,
-    INDEX `FK_computer_config_ref_hardware_idx` (`hardware_id` ASC) VISIBLE,
-    INDEX `FK_computer_config_ref_computer_idx` (`computer_id` ASC) VISIBLE,
-    CONSTRAINT `FK_computer_config_ref_hardware`
-        FOREIGN KEY (`hardware_id`)
-            REFERENCES `secs`.`hardware` (`id`)
-            ON DELETE NO ACTION
-            ON UPDATE NO ACTION,
-    CONSTRAINT `FK_computer_config_ref_computer`
-        FOREIGN KEY (`computer_id`)
-            REFERENCES `secs`.`computer` (`id`)
-            ON DELETE NO ACTION
-            ON UPDATE NO ACTION
+    PRIMARY KEY (`id`)
 )
     ENGINE = InnoDB;
 
@@ -290,7 +304,7 @@ CREATE TABLE `secs`.`hardware_config`
     INDEX `FK_hardware_config_ref_hardware_id_idx` (`hardware_id` ASC) VISIBLE,
     CONSTRAINT `FK_hardware_config_ref_computer_config`
         FOREIGN KEY (`config_id`)
-            REFERENCES `secs`.`computer_config` (`computer_id`)
+            REFERENCES `secs`.`computer_config` (`id`)
             ON DELETE NO ACTION
             ON UPDATE NO ACTION,
     CONSTRAINT `FK_hardware_config_ref_hardware_id`
@@ -386,25 +400,25 @@ COMMIT;
 
 
 -- -----------------------------------------------------
--- Data for table `secs`.`hardware`
+-- Data for table `secs`.`hardware_stock`
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `secs`;
-INSERT INTO `secs`.`hardware` (`id`, `name`, `size`, `quantity`, `price`, `brand_id`)
+INSERT INTO `secs`.`hardware_stock` (`id`, `name`, `size`, `quantity`, `price`, `brand_id`)
 VALUES (DEFAULT, 'Memory', 4, 20, 30, 1);
-INSERT INTO `secs`.`hardware` (`id`, `name`, `size`, `quantity`, `price`, `brand_id`)
+INSERT INTO `secs`.`hardware_stock` (`id`, `name`, `size`, `quantity`, `price`, `brand_id`)
 VALUES (DEFAULT, 'Memory', 8, 20, 50, 1);
-INSERT INTO `secs`.`hardware` (`id`, `name`, `size`, `quantity`, `price`, `brand_id`)
+INSERT INTO `secs`.`hardware_stock` (`id`, `name`, `size`, `quantity`, `price`, `brand_id`)
 VALUES (DEFAULT, 'Memory', 16, 20, 75, 1);
-INSERT INTO `secs`.`hardware` (`id`, `name`, `size`, `quantity`, `price`, `brand_id`)
+INSERT INTO `secs`.`hardware_stock` (`id`, `name`, `size`, `quantity`, `price`, `brand_id`)
 VALUES (DEFAULT, 'HDD', 512, 20, 50, 2);
-INSERT INTO `secs`.`hardware` (`id`, `name`, `size`, `quantity`, `price`, `brand_id`)
+INSERT INTO `secs`.`hardware_stock` (`id`, `name`, `size`, `quantity`, `price`, `brand_id`)
 VALUES (DEFAULT, 'HDD', 1024, 20, 60, 2);
-INSERT INTO `secs`.`hardware` (`id`, `name`, `size`, `quantity`, `price`, `brand_id`)
+INSERT INTO `secs`.`hardware_stock` (`id`, `name`, `size`, `quantity`, `price`, `brand_id`)
 VALUES (DEFAULT, 'SSD', 256, 10, 70, 2);
-INSERT INTO `secs`.`hardware` (`id`, `name`, `size`, `quantity`, `price`, `brand_id`)
+INSERT INTO `secs`.`hardware_stock` (`id`, `name`, `size`, `quantity`, `price`, `brand_id`)
 VALUES (DEFAULT, 'SSD', 512, 15, 130, 2);
-INSERT INTO `secs`.`hardware` (`id`, `name`, `size`, `quantity`, `price`, `brand_id`)
+INSERT INTO `secs`.`hardware_stock` (`id`, `name`, `size`, `quantity`, `price`, `brand_id`)
 VALUES (DEFAULT, 'SSD', 1024, 5, 200, 3);
 
 COMMIT;

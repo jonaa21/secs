@@ -1,9 +1,6 @@
 package sr.unasat.jpa.entity;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import javax.persistence.*;
-import java.util.List;
 import java.util.Objects;
 
 @Table
@@ -14,28 +11,18 @@ public class Hardware {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private String name;
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "stock_id")
+    private HardwareStock hardwareStock;
 
-    @Column(nullable = false)
-    private Double size;
-
-    @Column(nullable = false)
-    private Integer quantity;
-
-    @Column(nullable = false)
-    private Double price;
-
-    @ManyToOne
-    private Brand brand;
-
-    @JsonManagedReference
-    @ManyToMany
-    @JoinTable(name = "hardware_category", joinColumns = @JoinColumn(name = "hardware_id"),
-            inverseJoinColumns = @JoinColumn(name = "category_id"))
-    private List<Category> categories;
+    private Integer amount;
 
     public Hardware() {
+    }
+
+    public Hardware(HardwareStock hardwareStock, Integer amount) {
+        this.hardwareStock = hardwareStock;
+        this.amount = amount;
     }
 
     public Long getId() {
@@ -46,52 +33,12 @@ public class Hardware {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public HardwareStock getHardwareStock() {
+        return hardwareStock;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Double getSize() {
-        return size;
-    }
-
-    public void setSize(Double size) {
-        this.size = size;
-    }
-
-    public Integer getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
-    }
-
-    public Double getPrice() {
-        return price;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
-    }
-
-    public Brand getBrand() {
-        return brand;
-    }
-
-    public void setBrand(Brand brand) {
-        this.brand = brand;
-    }
-
-    public List<Category> getCategories() {
-        return categories;
-    }
-
-    public void setCategories(List<Category> categories) {
-        this.categories = categories;
+    public Integer getAmount() {
+        return amount;
     }
 
     @Override
@@ -99,24 +46,22 @@ public class Hardware {
         if (this == object) return true;
         if (object == null || getClass() != object.getClass()) return false;
         Hardware hardware = (Hardware) object;
-        return getName().equals(hardware.getName()) &&
-                       getPrice().equals(hardware.getPrice()) &&
-                       getBrand().equals(hardware.getBrand());
+        return Objects.equals(getId(), hardware.getId()) &&
+                       getHardwareStock().equals(hardware.getHardwareStock()) &&
+                       getAmount().equals(hardware.getAmount());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getName(), getPrice(), getBrand());
+        return Objects.hash(getId(), getHardwareStock(), getAmount());
     }
 
     @Override
     public String toString() {
         return "Hardware{" +
                        "id=" + id +
-                       ", name='" + name + '\'' +
-                       ", size=" + size +
-                       ", price=" + price +
-                       ", brand=" + brand +
+                       ", hardwareStock=" + hardwareStock +
+                       ", amount=" + amount +
                        '}';
     }
 }

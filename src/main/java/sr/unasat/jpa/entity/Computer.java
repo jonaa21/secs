@@ -1,7 +1,6 @@
 package sr.unasat.jpa.entity;
 
 import javax.persistence.*;
-import java.util.List;
 import java.util.Set;
 
 @Table
@@ -12,7 +11,7 @@ public class Computer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(name = "storage_type", nullable = false)
     private String storageType;
 
     @Column(nullable = false)
@@ -21,12 +20,9 @@ public class Computer {
     @ManyToMany(mappedBy = "computers")
     private Set<Receipt> receipts;
 
-    @OneToOne
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "config_id")
     private ComputerConfig config;
-
-    public Computer(List<Hardware> hardwareList) {
-
-    }
 
     public Computer() {
 
@@ -64,13 +60,11 @@ public class Computer {
         this.receipts = receipts;
     }
 
+    public ComputerConfig getConfig() {
+        return config;
+    }
 
-
-//    public List<ComputerConfig> getHardwareList() {
-//        return hardwareList;
-//    }
-//
-//    public void setHardwareList(List<ComputerConfig> configList) {
-//        this.hardwareList = configList;
-//    }
+    public void setConfig(ComputerConfig config) {
+        this.config = config;
+    }
 }

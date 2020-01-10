@@ -21,7 +21,7 @@ public class Receipt {
     @Column(nullable = false)
     private LocalDate deliveryDate;
 
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "order", joinColumns = @JoinColumn(name = "computer_id"),
         inverseJoinColumns = @JoinColumn(name = "receipt_id"))
     private Set<Computer> computers;

@@ -11,26 +11,26 @@ public class ComputerConfig {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "hardware_config",
-            joinColumns = {@JoinColumn(name = "config_id")},
+            joinColumns = {@JoinColumn(name = "config_id", nullable = false)},
             inverseJoinColumns = {@JoinColumn(name = "hardware_id")})
-    private List<Hardware> hardware;
+    private List<Hardware> hardwareList;
 
-    @ManyToOne
+    @OneToOne(mappedBy = "config")
     private Computer computer;
 
-    private boolean bluetooth;
+    protected boolean bluetooth;
 
-    private boolean thunderbolt;
+    protected boolean thunderbolt;
 
-    private boolean lte;
+    protected boolean lte;
 
     @Column(name = "touch_screen")
-    private boolean touchScreen;
+    protected boolean touchScreen;
 
     @Column(name = "two_in_one")
-    private boolean twoInOne;
+    protected boolean twoInOne;
 
     public ComputerConfig() {
 
@@ -44,12 +44,12 @@ public class ComputerConfig {
         this.id = id;
     }
 
-    public List<Hardware> getHardware() {
-        return hardware;
+    public List<Hardware> getHardwareList() {
+        return hardwareList;
     }
 
-    public void setHardware(List<Hardware> hardware) {
-        this.hardware = hardware;
+    public void setHardwareList(List<Hardware> hardware) {
+        this.hardwareList = hardware;
     }
 
     public Computer getComputer() {
@@ -58,45 +58,5 @@ public class ComputerConfig {
 
     public void setComputer(Computer computer) {
         this.computer = computer;
-    }
-
-    public boolean isBluetooth() {
-        return bluetooth;
-    }
-
-    public void setBluetooth(boolean bluetooth) {
-        this.bluetooth = bluetooth;
-    }
-
-    public boolean isThunderbolt() {
-        return thunderbolt;
-    }
-
-    public void setThunderbolt(boolean thunderbolt) {
-        this.thunderbolt = thunderbolt;
-    }
-
-    public boolean isLte() {
-        return lte;
-    }
-
-    public void setLte(boolean lte) {
-        this.lte = lte;
-    }
-
-    public boolean isTouchScreen() {
-        return touchScreen;
-    }
-
-    public void setTouchScreen(boolean touchScreen) {
-        this.touchScreen = touchScreen;
-    }
-
-    public boolean isTwoInOne() {
-        return twoInOne;
-    }
-
-    public void setTwoInOne(boolean twoInOne) {
-        this.twoInOne = twoInOne;
     }
 }
