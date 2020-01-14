@@ -1,5 +1,7 @@
 package sr.unasat.jpa.entity;
 
+import sr.unasat.jpa.entity.enums.PaymentTypeName;
+
 import javax.persistence.*;
 import java.util.Objects;
 

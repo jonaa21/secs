@@ -23,6 +23,9 @@ public class User {
     @ManyToOne
     private Role role;
 
+    @Column(nullable = false)
+    private Double balance;
+
     public User() {
     }
 
@@ -64,6 +67,14 @@ public class User {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public Double getBalance() {
+        return balance;
+    }
+
+    public void setBalance(Double balance) {
+        this.balance = balance;
     }
 
     @Override

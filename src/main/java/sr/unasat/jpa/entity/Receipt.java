@@ -79,5 +79,14 @@ public class Receipt {
 
     public void setComputers(Set<Computer> computers) {
         this.computers = computers;
+        calculatePrice();
+    }
+
+    private void calculatePrice() {
+        if (this.totalPrice == null) {
+            this.totalPrice = 0D;
+        }
+
+        this.computers.forEach(computer -> this.totalPrice += computer.getPrice());
     }
 }

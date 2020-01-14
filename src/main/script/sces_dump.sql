@@ -90,11 +90,12 @@ DROP TABLE IF EXISTS `secs`.`user`;
 
 CREATE TABLE IF NOT EXISTS `secs`.`user`
 (
-    `id`        BIGINT(20)  NOT NULL AUTO_INCREMENT,
-    `firstname` VARCHAR(45) NOT NULL,
-    `lastname`  VARCHAR(45) NOT NULL,
-    `id_number` VARCHAR(45) NOT NULL,
-    `role_id`   BIGINT      NOT NULL,
+    `id`        BIGINT(20)    NOT NULL AUTO_INCREMENT,
+    `firstname` VARCHAR(45)   NOT NULL,
+    `lastname`  VARCHAR(45)   NOT NULL,
+    `id_number` VARCHAR(45)   NOT NULL,
+    `role_id`   BIGINT(20)    NOT NULL,
+    `balance`   DOUBLE(10, 2) NULL DEFAULT 0,
     PRIMARY KEY (`id`),
     UNIQUE INDEX `id_number_UNIQUE` (`id_number` ASC) VISIBLE,
     INDEX `FK_user_ref_role_idx` (`role_id` ASC) VISIBLE,
@@ -198,7 +199,7 @@ DROP TABLE IF EXISTS `secs`.`payment_type`;
 
 CREATE TABLE IF NOT EXISTS `secs`.`payment_type`
 (
-    `id`   BIGINT      NOT NULL AUTO_INCREMENT,
+    `id`   BIGINT(20)  NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(45) NOT NULL,
     PRIMARY KEY (`id`)
 )
@@ -279,8 +280,8 @@ DROP TABLE IF EXISTS `secs`.`hardware_config`;
 
 CREATE TABLE `secs`.`hardware_config`
 (
-    `config_id`   BIGINT NOT NULL,
-    `hardware_id` BIGINT NOT NULL,
+    `config_id`   BIGINT(20) NOT NULL,
+    `hardware_id` BIGINT(20) NOT NULL,
     INDEX `FK_hardware_config_ref_computer_config_idx` (`config_id` ASC) VISIBLE,
     INDEX `FK_hardware_config_ref_hardware_id_idx` (`hardware_id` ASC) VISIBLE,
     CONSTRAINT `FK_hardware_config_ref_computer_config`

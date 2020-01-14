@@ -1,4 +1,4 @@
-package sr.unasat.jpa.entity;
+package sr.unasat.jpa.entity.enums;
 
 public enum PaymentTypeName {
 
