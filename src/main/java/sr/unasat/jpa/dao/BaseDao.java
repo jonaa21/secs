@@ -4,6 +4,10 @@ import javax.persistence.EntityExistsException;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ *
+ * @param <E> entity
+ */
 public interface BaseDao<E> {
 
     List<E> findAll();

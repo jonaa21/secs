@@ -10,6 +10,10 @@ import javax.persistence.TypedQuery;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ *
+ * @param <E> entity
+ */
 public abstract class BaseDaoImpl<E> implements BaseDao<E> {
 
     private final static String DEFAULT_FIND_ALL_QUERY = "SELECT e FROM %s e";
