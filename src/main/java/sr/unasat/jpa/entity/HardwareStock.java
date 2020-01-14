@@ -3,7 +3,6 @@ package sr.unasat.jpa.entity;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
-import java.util.List;
 import java.util.Objects;
 
 @Table(name = "hardware_stock")
@@ -30,10 +29,9 @@ public class HardwareStock {
     private Brand brand;
 
     @JsonManagedReference
-    @ManyToMany
-    @JoinTable(name = "stock_category", joinColumns = @JoinColumn(name = "stock_id"),
-            inverseJoinColumns = @JoinColumn(name = "category_id"))
-    private List<Category> categories;
+    @OneToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
 
     public HardwareStock() {
     }
@@ -86,12 +84,12 @@ public class HardwareStock {
         this.brand = brand;
     }
 
-    public List<Category> getCategories() {
-        return categories;
+    public Category getCategory() {
+        return category;
     }
 
-    public void setCategories(List<Category> categories) {
-        this.categories = categories;
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     @Override

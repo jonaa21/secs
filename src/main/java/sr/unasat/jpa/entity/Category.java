@@ -1,9 +1,8 @@
 package sr.unasat.jpa.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import sr.unasat.jpa.entity.enums.CategoryName;
 
 import javax.persistence.*;
-import java.util.List;
 import java.util.Objects;
 
 @Table
@@ -15,11 +14,8 @@ public class Category {
     private Long id;
 
     @Column(nullable = false)
-    private String name;
-
-    @JsonBackReference
-    @ManyToMany(mappedBy = "categories")
-    private List<HardwareStock> stockList;
+    @Enumerated(EnumType.STRING)
+    private CategoryName name;
 
     public Category() {
     }
@@ -32,20 +28,12 @@ public class Category {
         this.id = id;
     }
 
-    public String getName() {
+    public CategoryName getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(CategoryName name) {
         this.name = name;
-    }
-
-    public List<HardwareStock> getStockList() {
-        return stockList;
-    }
-
-    public void setStockList(List<HardwareStock> hardwareList) {
-        this.stockList = hardwareList;
     }
 
     @Override

@@ -8,10 +8,6 @@ SET @OLD_SQL_MODE = @@SQL_MODE, SQL_MODE =
 -- -----------------------------------------------------
 -- Schema mydb
 -- -----------------------------------------------------
--- -----------------------------------------------------
--- Schema secs
--- -----------------------------------------------------
-DROP SCHEMA IF EXISTS `secs`;
 
 -- -----------------------------------------------------
 -- Schema secs
@@ -135,17 +131,22 @@ DROP TABLE IF EXISTS `secs`.`hardware_stock`;
 
 CREATE TABLE IF NOT EXISTS `secs`.`hardware_stock`
 (
-    `id`       BIGINT(20)    NOT NULL AUTO_INCREMENT,
-    `name`     VARCHAR(45)   NOT NULL,
-    `size`     DOUBLE(10, 2) NOT NULL,
-    `quantity` INT(11)       NOT NULL DEFAULT '0',
-    `price`    DOUBLE(10, 2) NOT NULL DEFAULT '0',
-    `brand_id` BIGINT(20)    NOT NULL,
+    `id`          BIGINT(20)    NOT NULL AUTO_INCREMENT,
+    `name`        VARCHAR(45)   NOT NULL,
+    `size`        DOUBLE(10, 2) NOT NULL,
+    `quantity`    INT(11)       NOT NULL DEFAULT '0',
+    `price`       DOUBLE(10, 2) NOT NULL DEFAULT '0',
+    `brand_id`    BIGINT(20)    NOT NULL,
+    `category_id` BIGINT(20)    NOT NULL,
     PRIMARY KEY (`id`),
     INDEX `FK_hardware_stock_ref_brand_idx` (`brand_id` ASC) VISIBLE,
+    INDEX `FK_hardware_stock_ref_category_idx` (`brand_id` ASC) VISIBLE,
     CONSTRAINT `FK_hardware_stock_ref_brand`
         FOREIGN KEY (`brand_id`)
-            REFERENCES `secs`.`brand` (`id`)
+            REFERENCES `secs`.`brand` (`id`),
+        CONSTRAINT `FK_hardware_stock_ref_category`
+            FOREIGN KEY (`category_id`)
+                REFERENCES `secs`.`category` (`id`)
 )
     ENGINE = InnoDB;
 
@@ -163,29 +164,6 @@ CREATE TABLE IF NOT EXISTS `secs`.`hardware`
     PRIMARY KEY (`id`),
     INDEX `FK_hardware_ref_hardware_stock_idx` (`stock_id` ASC) VISIBLE,
     CONSTRAINT `FK_hardware_ref_hardware_stock`
-        FOREIGN KEY (`stock_id`)
-            REFERENCES `secs`.`hardware_stock` (`id`)
-)
-    ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `secs`.`stock_category`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `secs`.`stock_category`;
-
-CREATE TABLE IF NOT EXISTS `secs`.`stock_category`
-(
-    `id`          BIGINT(20) NOT NULL AUTO_INCREMENT,
-    `stock_id`    BIGINT(20) NOT NULL,
-    `category_id` BIGINT(20) NOT NULL,
-    PRIMARY KEY (`id`),
-    INDEX `FK_stock_category_ref_hardware_stock_idx` (`stock_id` ASC) VISIBLE,
-    INDEX `FK_stock_category_ref_category_idx` (`category_id` ASC) VISIBLE,
-    CONSTRAINT `FK_stock_category_ref_category`
-        FOREIGN KEY (`category_id`)
-            REFERENCES `secs`.`category` (`id`),
-    CONSTRAINT `FK_stock_category_ref_hardware_stock`
         FOREIGN KEY (`stock_id`)
             REFERENCES `secs`.`hardware_stock` (`id`)
 )
@@ -349,21 +327,21 @@ USE `secs`;
 INSERT INTO `secs`.`category` (`id`, `name`)
 VALUES (DEFAULT, 'RAM');
 INSERT INTO `secs`.`category` (`id`, `name`)
-VALUES (DEFAULT, 'Storage');
+VALUES (DEFAULT, 'STORAGE');
 INSERT INTO `secs`.`category` (`id`, `name`)
 VALUES (DEFAULT, 'CPU');
 INSERT INTO `secs`.`category` (`id`, `name`)
 VALUES (DEFAULT, 'GPU');
 INSERT INTO `secs`.`category` (`id`, `name`)
-VALUES (DEFAULT, 'Keyboard');
+VALUES (DEFAULT, 'KEYBOARD');
 INSERT INTO `secs`.`category` (`id`, `name`)
-VALUES (DEFAULT, 'Mouse');
+VALUES (DEFAULT, 'MOUSE');
 INSERT INTO `secs`.`category` (`id`, `name`)
-VALUES (DEFAULT, 'PSU');
+VALUES (DEFAULT, 'POWER_SUPPLY');
 INSERT INTO `secs`.`category` (`id`, `name`)
-VALUES (DEFAULT, 'Monitor');
+VALUES (DEFAULT, 'MONITOR');
 INSERT INTO `secs`.`category` (`id`, `name`)
-VALUES (DEFAULT, 'Cable');
+VALUES (DEFAULT, 'CABLE');
 
 COMMIT;
 
@@ -386,22 +364,22 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `secs`;
-INSERT INTO `secs`.`hardware_stock` (`id`, `name`, `size`, `quantity`, `price`, `brand_id`)
-VALUES (DEFAULT, 'Memory', 4, 20, 30, 1);
-INSERT INTO `secs`.`hardware_stock` (`id`, `name`, `size`, `quantity`, `price`, `brand_id`)
-VALUES (DEFAULT, 'Memory', 8, 20, 50, 1);
-INSERT INTO `secs`.`hardware_stock` (`id`, `name`, `size`, `quantity`, `price`, `brand_id`)
-VALUES (DEFAULT, 'Memory', 16, 20, 75, 1);
-INSERT INTO `secs`.`hardware_stock` (`id`, `name`, `size`, `quantity`, `price`, `brand_id`)
-VALUES (DEFAULT, 'HDD', 512, 20, 50, 2);
-INSERT INTO `secs`.`hardware_stock` (`id`, `name`, `size`, `quantity`, `price`, `brand_id`)
-VALUES (DEFAULT, 'HDD', 1024, 20, 60, 2);
-INSERT INTO `secs`.`hardware_stock` (`id`, `name`, `size`, `quantity`, `price`, `brand_id`)
-VALUES (DEFAULT, 'SSD', 256, 10, 70, 2);
-INSERT INTO `secs`.`hardware_stock` (`id`, `name`, `size`, `quantity`, `price`, `brand_id`)
-VALUES (DEFAULT, 'SSD', 512, 15, 130, 2);
-INSERT INTO `secs`.`hardware_stock` (`id`, `name`, `size`, `quantity`, `price`, `brand_id`)
-VALUES (DEFAULT, 'SSD', 1024, 5, 200, 3);
+INSERT INTO `secs`.`hardware_stock` (`id`, `name`, `size`, `quantity`, `price`, `brand_id`, `category_id`)
+VALUES (DEFAULT, 'Memory', 4, 20, 30, 1, 1);
+INSERT INTO `secs`.`hardware_stock` (`id`, `name`, `size`, `quantity`, `price`, `brand_id`, `category_id`)
+VALUES (DEFAULT, 'Memory', 8, 20, 50, 1, 1);
+INSERT INTO `secs`.`hardware_stock` (`id`, `name`, `size`, `quantity`, `price`, `brand_id`, `category_id`)
+VALUES (DEFAULT, 'Memory', 16, 20, 75, 1, 1);
+INSERT INTO `secs`.`hardware_stock` (`id`, `name`, `size`, `quantity`, `price`, `brand_id`, `category_id`)
+VALUES (DEFAULT, 'HDD', 512, 20, 50, 2, 2);
+INSERT INTO `secs`.`hardware_stock` (`id`, `name`, `size`, `quantity`, `price`, `brand_id`, `category_id`)
+VALUES (DEFAULT, 'HDD', 1024, 20, 60, 2, 2);
+INSERT INTO `secs`.`hardware_stock` (`id`, `name`, `size`, `quantity`, `price`, `brand_id`, `category_id`)
+VALUES (DEFAULT, 'SSD', 256, 10, 70, 2, 2);
+INSERT INTO `secs`.`hardware_stock` (`id`, `name`, `size`, `quantity`, `price`, `brand_id`, `category_id`)
+VALUES (DEFAULT, 'SSD', 512, 15, 130, 2, 2);
+INSERT INTO `secs`.`hardware_stock` (`id`, `name`, `size`, `quantity`, `price`, `brand_id`, `category_id`)
+VALUES (DEFAULT, 'SSD', 1024, 5, 200, 3, 2);
 
 COMMIT;
 
