@@ -15,7 +15,7 @@ public abstract class BaseDaoImpl<E> implements BaseDao<E> {
     private final static String DEFAULT_FIND_ALL_QUERY = "SELECT e FROM %s e";
     private final static String DEFAULT_FIND_BY_ID = "SELECT e FROM %s e WHERE e.id = :id";
 
-    private EntityManager entityManager;
+    private final EntityManager entityManager;
     private String findAllQuery;
     private String findByIdQuery;
     private final Class<E> parameterizedType;
@@ -44,7 +44,7 @@ public abstract class BaseDaoImpl<E> implements BaseDao<E> {
         this.findByIdQuery = findByIdQuery;
     }
 
-    private void beginTransaction() {
+    void beginTransaction() {
         EntityTransaction transaction = getTransaction();
 
         if (transaction.isActive()) {
@@ -53,6 +53,10 @@ public abstract class BaseDaoImpl<E> implements BaseDao<E> {
         }
 
         transaction.begin();
+    }
+
+    public TypedQuery<E> createQuery(String query) {
+        return this.entityManager.createQuery(query, parameterizedType);
     }
 
     private EntityTransaction getTransaction() {

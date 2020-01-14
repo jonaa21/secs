@@ -4,9 +4,9 @@ import sr.unasat.jpa.entity.Category;
 
 import javax.persistence.EntityManager;
 
-public class CategoryDao extends BaseDaoImpl<Category> {
+public class CategoryDaoImpl extends BaseDaoImpl<Category> implements CategoryDao{
 
-    public CategoryDao(EntityManager entityManager) {
+    public CategoryDaoImpl(EntityManager entityManager) {
         super(entityManager, Category.class);
     }
 

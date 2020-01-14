@@ -1,5 +1,6 @@
 package sr.unasat.jpa.service.impl;
 
+import sr.unasat.jpa.dao.BaseDao;
 import sr.unasat.jpa.dao.impl.BaseDaoImpl;
 import sr.unasat.jpa.service.BaseService;
 
@@ -7,12 +8,16 @@ import javax.persistence.EntityExistsException;
 import java.util.Collection;
 import java.util.List;
 
-public class BaseServiceImpl<D extends BaseDaoImpl<E>, E> implements BaseService<E> {
+public class BaseServiceImpl<D extends BaseDao<E>, E> implements BaseService<E> {
 
     protected D dao;
 
     BaseServiceImpl(D dao) {
         this.dao = dao;
+    }
+
+    public D getDao() {
+        return dao;
     }
 
     @Override

@@ -1,12 +1,13 @@
 package sr.unasat.jpa.dao.impl;
 
+import sr.unasat.jpa.dao.RoleDao;
 import sr.unasat.jpa.entity.Role;
 
 import javax.persistence.EntityManager;
 
-public class RoleDao extends BaseDaoImpl<Role> {
+public class RoleDaoImpl extends BaseDaoImpl<Role> implements RoleDao {
 
-    public RoleDao(EntityManager entityManager) {
+    public RoleDaoImpl(EntityManager entityManager) {
         super(entityManager, Role.class);
     }
 

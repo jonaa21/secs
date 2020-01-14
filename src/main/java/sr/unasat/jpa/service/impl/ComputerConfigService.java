@@ -1,14 +1,14 @@
 package sr.unasat.jpa.service.impl;
 
-import sr.unasat.jpa.dao.impl.ComputerConfigDao;
+import sr.unasat.jpa.dao.impl.ComputerConfigDaoImpl;
 import sr.unasat.jpa.entity.ComputerConfig;
 
 import javax.persistence.EntityManager;
 
-public class ComputerConfigService extends BaseServiceImpl<ComputerConfigDao, ComputerConfig> {
+public class ComputerConfigService extends BaseServiceImpl<ComputerConfigDaoImpl, ComputerConfig> {
 
     public ComputerConfigService(EntityManager entityManager) {
-        super(new ComputerConfigDao(entityManager));
+        super(new ComputerConfigDaoImpl(entityManager));
     }
 
 

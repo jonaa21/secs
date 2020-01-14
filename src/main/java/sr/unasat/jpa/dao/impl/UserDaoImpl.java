@@ -1,12 +1,13 @@
 package sr.unasat.jpa.dao.impl;
 
+import sr.unasat.jpa.dao.UserDao;
 import sr.unasat.jpa.entity.User;
 
 import javax.persistence.EntityManager;
 
-public class UserDao extends BaseDaoImpl<User> {
+public class UserDaoImpl extends BaseDaoImpl<User> implements UserDao {
 
-    public UserDao(EntityManager entityManager) {
+    public UserDaoImpl(EntityManager entityManager) {
         super(entityManager, User.class);
     }
 
