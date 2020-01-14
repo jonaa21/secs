@@ -30,9 +30,7 @@ CREATE TABLE IF NOT EXISTS `secs`.`brand`
     `name` VARCHAR(45) NOT NULL,
     PRIMARY KEY (`id`)
 )
-    ENGINE = InnoDB
-    DEFAULT CHARACTER SET = utf8mb4
-    COLLATE = utf8mb4_0900_ai_ci;
+    ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -46,9 +44,7 @@ CREATE TABLE IF NOT EXISTS `secs`.`category`
     `name` VARCHAR(45) NOT NULL,
     PRIMARY KEY (`id`)
 )
-    ENGINE = InnoDB
-    DEFAULT CHARACTER SET = utf8mb4
-    COLLATE = utf8mb4_0900_ai_ci;
+    ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -58,10 +54,10 @@ DROP TABLE IF EXISTS `secs`.`computer`;
 
 CREATE TABLE IF NOT EXISTS `secs`.`computer`
 (
-    `id`           BIGINT(20)  NOT NULL AUTO_INCREMENT,
-    `storage_type` VARCHAR(45) NOT NULL,
-    `price`        DECIMAL     NULL DEFAULT 0,
-    `config_id`    BIGINT(20)  NOT NULL,
+    `id`           BIGINT(20)    NOT NULL AUTO_INCREMENT,
+    `storage_type` VARCHAR(45)   NOT NULL,
+    `price`        DOUBLE(19, 2) NULL DEFAULT 0,
+    `config_id`    BIGINT(20)    NOT NULL,
     PRIMARY KEY (`id`),
     INDEX `FK_computer_ref_comp_config_idx` (`config_id` ASC) VISIBLE,
     CONSTRAINT `FK_computer_ref_comp_config`
@@ -70,9 +66,7 @@ CREATE TABLE IF NOT EXISTS `secs`.`computer`
             ON DELETE NO ACTION
             ON UPDATE NO ACTION
 )
-    ENGINE = InnoDB
-    DEFAULT CHARACTER SET = utf8mb4
-    COLLATE = utf8mb4_0900_ai_ci;
+    ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -86,9 +80,7 @@ CREATE TABLE IF NOT EXISTS `secs`.`role`
     `name` VARCHAR(45) NOT NULL,
     PRIMARY KEY (`id`)
 )
-    ENGINE = InnoDB
-    DEFAULT CHARACTER SET = utf8mb4
-    COLLATE = utf8mb4_0900_ai_ci;
+    ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -112,9 +104,7 @@ CREATE TABLE IF NOT EXISTS `secs`.`user`
             ON DELETE NO ACTION
             ON UPDATE NO ACTION
 )
-    ENGINE = InnoDB
-    DEFAULT CHARACTER SET = utf8mb4
-    COLLATE = utf8mb4_0900_ai_ci;
+    ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -134,9 +124,7 @@ CREATE TABLE IF NOT EXISTS `secs`.`customer`
         FOREIGN KEY (`user_id`)
             REFERENCES `secs`.`user` (`id`)
 )
-    ENGINE = InnoDB
-    DEFAULT CHARACTER SET = utf8mb4
-    COLLATE = utf8mb4_0900_ai_ci;
+    ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -146,21 +134,19 @@ DROP TABLE IF EXISTS `secs`.`hardware_stock`;
 
 CREATE TABLE IF NOT EXISTS `secs`.`hardware_stock`
 (
-    `id`       BIGINT(20)     NOT NULL AUTO_INCREMENT,
-    `name`     VARCHAR(45)    NOT NULL,
-    `size`     INT(11)        NOT NULL,
-    `quantity` INT(11)        NOT NULL DEFAULT '0',
-    `price`    DECIMAL(10, 0) NOT NULL DEFAULT '0',
-    `brand_id` BIGINT(20)     NOT NULL,
+    `id`       BIGINT(20)    NOT NULL AUTO_INCREMENT,
+    `name`     VARCHAR(45)   NOT NULL,
+    `size`     DOUBLE(10, 2) NOT NULL,
+    `quantity` INT(11)       NOT NULL DEFAULT '0',
+    `price`    DOUBLE(10, 2) NOT NULL DEFAULT '0',
+    `brand_id` BIGINT(20)    NOT NULL,
     PRIMARY KEY (`id`),
     INDEX `FK_hardware_stock_ref_brand_idx` (`brand_id` ASC) VISIBLE,
     CONSTRAINT `FK_hardware_stock_ref_brand`
         FOREIGN KEY (`brand_id`)
             REFERENCES `secs`.`brand` (`id`)
 )
-    ENGINE = InnoDB
-    DEFAULT CHARACTER SET = utf8mb4
-    COLLATE = utf8mb4_0900_ai_ci;
+    ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -179,9 +165,7 @@ CREATE TABLE IF NOT EXISTS `secs`.`hardware`
         FOREIGN KEY (`stock_id`)
             REFERENCES `secs`.`hardware_stock` (`id`)
 )
-    ENGINE = InnoDB
-    DEFAULT CHARACTER SET = utf8mb4
-    COLLATE = utf8mb4_0900_ai_ci;
+    ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -192,7 +176,7 @@ DROP TABLE IF EXISTS `secs`.`stock_category`;
 CREATE TABLE IF NOT EXISTS `secs`.`stock_category`
 (
     `id`          BIGINT(20) NOT NULL AUTO_INCREMENT,
-    `stock_id` BIGINT(20) NOT NULL,
+    `stock_id`    BIGINT(20) NOT NULL,
     `category_id` BIGINT(20) NOT NULL,
     PRIMARY KEY (`id`),
     INDEX `FK_stock_category_ref_hardware_stock_idx` (`stock_id` ASC) VISIBLE,
@@ -204,9 +188,7 @@ CREATE TABLE IF NOT EXISTS `secs`.`stock_category`
         FOREIGN KEY (`stock_id`)
             REFERENCES `secs`.`hardware_stock` (`id`)
 )
-    ENGINE = InnoDB
-    DEFAULT CHARACTER SET = utf8mb4
-    COLLATE = utf8mb4_0900_ai_ci;
+    ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -230,25 +212,24 @@ DROP TABLE IF EXISTS `secs`.`receipt`;
 
 CREATE TABLE IF NOT EXISTS `secs`.`receipt`
 (
-    `id`              BIGINT(20) NOT NULL AUTO_INCREMENT,
-    `payment_type_id` BIGINT     NOT NULL,
-    `customer_id`     BIGINT(20) NOT NULL,
-    `delivery_date`   DATE       NOT NULL,
+    `id`            BIGINT(20)    NOT NULL AUTO_INCREMENT,
+    payment_type_id BIGINT(20)    NOT NULL,
+    `customer_id`   BIGINT(20)    NOT NULL,
+    `total_price`   DOUBLE(10, 2) NOT NULL DEFAULT '0',
+    `delivery_date` DATE          NOT NULL,
     PRIMARY KEY (`id`),
     INDEX `FK_receipt_ref_customer_idx` (`customer_id` ASC) VISIBLE,
-    INDEX `FK_receipt_ref_payment_type_id_idx` (`payment_type_id` ASC) VISIBLE,
+    INDEX `FK_receipt_ref_payment_type_id_idx` (payment_type_id ASC) VISIBLE,
     CONSTRAINT `FK_receipt_ref_customer`
         FOREIGN KEY (`customer_id`)
             REFERENCES `secs`.`customer` (`id`),
     CONSTRAINT `FK_receipt_ref_payment_type_id`
-        FOREIGN KEY (`payment_type_id`)
+        FOREIGN KEY (payment_type_id)
             REFERENCES `secs`.`payment_type` (`id`)
             ON DELETE NO ACTION
             ON UPDATE NO ACTION
 )
-    ENGINE = InnoDB
-    DEFAULT CHARACTER SET = utf8mb4
-    COLLATE = utf8mb4_0900_ai_ci;
+    ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -269,9 +250,7 @@ CREATE TABLE IF NOT EXISTS `secs`.`order`
         FOREIGN KEY (`receipt_id`)
             REFERENCES `secs`.`receipt` (`id`)
 )
-    ENGINE = InnoDB
-    DEFAULT CHARACTER SET = utf8mb4
-    COLLATE = utf8mb4_0900_ai_ci;
+    ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -282,14 +261,16 @@ DROP TABLE IF EXISTS `secs`.`computer_config`;
 CREATE TABLE IF NOT EXISTS `secs`.`computer_config`
 (
     `id`           BIGINT(20) NOT NULL AUTO_INCREMENT,
-    `bluetooth`    BIT(1) DEFAULT 0,
-    `thunderbolt`  BIT(1) DEFAULT 0,
-    `lte`          BIT(1) DEFAULT 0,
-    `touch_screen` BIT(1) DEFAULT 0,
-    `two_in_one`   BIT(1) DEFAULT 0,
+    `bluetooth`    BIT(1)        DEFAULT 0,
+    `thunderbolt`  BIT(1)        DEFAULT 0,
+    `lte`          BIT(1)        DEFAULT 0,
+    `touch_screen` BIT(1)        DEFAULT 0,
+    `two_in_one`   BIT(1)        DEFAULT 0,
+    `sub_total`    DOUBLE(10, 2) DEFAULT 0,
     PRIMARY KEY (`id`)
 )
     ENGINE = InnoDB;
+
 
 -- -----------------------------------------------------
 -- Table `secs`.`hardware_config`

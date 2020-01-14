@@ -14,7 +14,7 @@ public class Customer {
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private User user;
 
-    @Column(nullable = false, unique = true)
+    @Column(name = "customer_number", nullable = false, unique = true)
     private String customerNumber;
 
     public Long getId() {
