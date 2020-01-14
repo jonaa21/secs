@@ -3,7 +3,7 @@ package sr.unasat.jpa.entity;
 import javax.persistence.*;
 import java.util.Objects;
 
-@Table
+@Table(name = "hardware")
 @Entity
 public class Hardware {
 

@@ -29,9 +29,6 @@ public class HardwareStock {
     @ManyToOne
     private Brand brand;
 
-    @OneToOne(mappedBy = "hardwareStock")
-    private Hardware hardware;
-
     @JsonManagedReference
     @ManyToMany
     @JoinTable(name = "stock_category", joinColumns = @JoinColumn(name = "stock_id"),
@@ -114,10 +111,11 @@ public class HardwareStock {
 
     @Override
     public String toString() {
-        return "Hardware{" +
+        return "HardwareStock{" +
                        "id=" + id +
                        ", name='" + name + '\'' +
                        ", size=" + size +
+                       ", quantity=" + quantity +
                        ", price=" + price +
                        ", brand=" + brand +
                        '}';

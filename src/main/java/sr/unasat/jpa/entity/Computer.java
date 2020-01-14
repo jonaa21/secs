@@ -1,5 +1,7 @@
 package sr.unasat.jpa.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.Set;
 
@@ -20,6 +22,7 @@ public class Computer {
     @ManyToMany(mappedBy = "computers")
     private Set<Receipt> receipts;
 
+    @JsonManagedReference
     @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "config_id")
     private ComputerConfig config;
@@ -66,5 +69,16 @@ public class Computer {
 
     public void setConfig(ComputerConfig config) {
         this.config = config;
+        calculatePrice();
+    }
+
+    private void calculatePrice() {
+        if (this.price == null) {
+            this.price = 0D;
+        }
+
+        this.price += this.config.getSubtotal();
+        this.config.getHardwareList()
+                .forEach(hardware -> this.price += hardware.getHardwareStock().getPrice() * hardware.getAmount());
     }
 }

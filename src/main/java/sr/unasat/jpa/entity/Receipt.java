@@ -13,12 +13,16 @@ public class Receipt {
     private Long id;
 
     @ManyToOne
+    @JoinColumn(name = "payment_type_id")
     private PaymentType paymentType;
 
     @ManyToOne
     private Customer customer;
 
-    @Column(nullable = false)
+    @Column(name = "total_price", nullable = false)
+    private Double totalPrice;
+
+    @Column(name = "delivery_date", nullable = false)
     private LocalDate deliveryDate;
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
@@ -51,6 +55,14 @@ public class Receipt {
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
+    }
+
+    public Double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(Double totalPrice) {
+        this.totalPrice = totalPrice;
     }
 
     public LocalDate getDeliveryDate() {

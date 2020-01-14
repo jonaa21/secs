@@ -1,5 +1,7 @@
 package sr.unasat.jpa.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -11,26 +13,30 @@ public class ComputerConfig {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinTable(name = "hardware_config",
             joinColumns = {@JoinColumn(name = "config_id", nullable = false)},
             inverseJoinColumns = {@JoinColumn(name = "hardware_id")})
     private List<Hardware> hardwareList;
 
+    @JsonBackReference
     @OneToOne(mappedBy = "config")
     private Computer computer;
 
-    protected boolean bluetooth;
+    private boolean bluetooth;
 
-    protected boolean thunderbolt;
+    private boolean thunderbolt;
 
-    protected boolean lte;
+    private boolean lte;
 
     @Column(name = "touch_screen")
-    protected boolean touchScreen;
+    private boolean touchScreen;
 
     @Column(name = "two_in_one")
-    protected boolean twoInOne;
+    private boolean twoInOne;
+
+    @Column(name = "sub_total")
+    private Double subtotal;
 
     public ComputerConfig() {
 
@@ -58,5 +64,53 @@ public class ComputerConfig {
 
     public void setComputer(Computer computer) {
         this.computer = computer;
+    }
+
+    public boolean isBluetooth() {
+        return bluetooth;
+    }
+
+    public void setBluetooth(boolean bluetooth) {
+        this.bluetooth = bluetooth;
+    }
+
+    public boolean isThunderbolt() {
+        return thunderbolt;
+    }
+
+    public void setThunderbolt(boolean thunderbolt) {
+        this.thunderbolt = thunderbolt;
+    }
+
+    public boolean isLte() {
+        return lte;
+    }
+
+    public void setLte(boolean lte) {
+        this.lte = lte;
+    }
+
+    public boolean isTouchScreen() {
+        return touchScreen;
+    }
+
+    public void setTouchScreen(boolean touchScreen) {
+        this.touchScreen = touchScreen;
+    }
+
+    public boolean isTwoInOne() {
+        return twoInOne;
+    }
+
+    public void setTwoInOne(boolean twoInOne) {
+        this.twoInOne = twoInOne;
+    }
+
+    public Double getSubtotal() {
+        return subtotal;
+    }
+
+    public void setSubtotal(Double subtotal) {
+        this.subtotal = subtotal;
     }
 }
