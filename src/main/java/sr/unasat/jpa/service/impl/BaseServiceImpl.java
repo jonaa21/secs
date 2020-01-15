@@ -53,4 +53,19 @@ public class BaseServiceImpl<D extends BaseDao<E>, E> implements BaseService<E> 
     public <T extends Collection<E>> void saveAll(T collection) {
         dao.saveAll(collection);
     }
+
+    @Override
+    public E findByName(String name) {
+        return dao.findByName(name);
+    }
+
+    @Override
+    public E findByName(String name, String parameter) {
+        return dao.findByName(name, parameter);
+    }
+
+    @Override
+    public E findBy(Object o, String fieldName) {
+        return dao.findBy(o, fieldName);
+    }
 }

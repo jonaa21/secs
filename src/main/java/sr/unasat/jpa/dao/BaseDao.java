@@ -22,4 +22,9 @@ public interface BaseDao<E> {
 
     <T extends Collection<E>> void saveAll(T collection);
 
+    E findByName(String name);
+
+    E findByName(String name, String parameter);
+
+    E findBy(Object object, String fieldName);
 }

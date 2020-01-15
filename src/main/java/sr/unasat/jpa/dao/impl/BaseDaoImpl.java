@@ -18,10 +18,12 @@ public abstract class BaseDaoImpl<E> implements BaseDao<E> {
 
     private final static String DEFAULT_FIND_ALL_QUERY = "SELECT e FROM %s e";
     private final static String DEFAULT_FIND_BY_ID = "SELECT e FROM %s e WHERE e.id = :id";
+    private final static String DEFAULT_FIND_BY_NAME = "SELECT e FROM %s e WHERE e.name = :name";
 
     private final EntityManager entityManager;
     private String findAllQuery;
     private String findByIdQuery;
+    private String findByNameQuery;
     private final Class<E> parameterizedType;
 
     public BaseDaoImpl(EntityManager entityManager, Class<E> parameterizedType) {
@@ -30,6 +32,7 @@ public abstract class BaseDaoImpl<E> implements BaseDao<E> {
 
         findAllQuery = String.format(DEFAULT_FIND_ALL_QUERY, parameterizedType.getCanonicalName());
         findByIdQuery = String.format(DEFAULT_FIND_BY_ID, parameterizedType.getCanonicalName());
+        findByNameQuery = String.format(DEFAULT_FIND_BY_NAME, parameterizedType.getCanonicalName());
     }
 
     public String getFindAllQuery() {
@@ -139,8 +142,42 @@ public abstract class BaseDaoImpl<E> implements BaseDao<E> {
         this.entityManager.remove(e);
     }
 
-    public List<E> findByName(String name) {
-        return null;
+
+    /**
+     *
+     * @param name value
+     * @return entity
+     */
+    @Override
+    public E findByName(String name) {
+        this.beginTransaction();
+        TypedQuery<E> query = this.entityManager.createQuery(findByNameQuery, parameterizedType);
+        query.setParameter("name", name);
+        return query.getSingleResult();
+    }
+
+    /**
+     *
+     * @param name value
+     * @param parameter field name
+     * @return entity
+     */
+    @Override
+    public E findByName(String name, String parameter) {
+        this.beginTransaction();
+        String jpql = String.format(findAllQuery + " WHERE e.%s = :name", parameter);
+        TypedQuery<E> query = this.entityManager.createQuery(jpql, parameterizedType);
+        query.setParameter(parameter, name);
+        return query.getSingleResult();
+    }
+
+    @Override
+    public E findBy(Object object, String fieldName) {
+        this.beginTransaction();
+        String jpql = String.format(findAllQuery + " WHERE e.%s = :object", fieldName);
+        TypedQuery<E> query = this.entityManager.createQuery(jpql, parameterizedType);
+        query.setParameter("object", object);
+        return query.getSingleResult();
     }
 
     /**
