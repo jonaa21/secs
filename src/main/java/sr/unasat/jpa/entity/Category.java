@@ -13,9 +13,9 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(name = "name", nullable = false)
     @Enumerated(EnumType.STRING)
-    private CategoryName name;
+    private CategoryName categoryName;
 
     public Category() {
     }
@@ -28,12 +28,12 @@ public class Category {
         this.id = id;
     }
 
-    public CategoryName getName() {
-        return name;
+    public CategoryName getCategoryName() {
+        return categoryName;
     }
 
-    public void setName(CategoryName name) {
-        this.name = name;
+    public void setCategoryName(CategoryName name) {
+        this.categoryName = name;
     }
 
     @Override
@@ -41,18 +41,18 @@ public class Category {
         if (this == object) return true;
         if (object == null || getClass() != object.getClass()) return false;
         Category category = (Category) object;
-        return getName().equals(category.getName());
+        return getCategoryName().equals(category.getCategoryName());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getName());
+        return Objects.hash(getCategoryName());
     }
 
     @Override
     public String toString() {
         return "Category{" +
-                       "name='" + name + '\'' +
+                       "name='" + categoryName + '\'' +
                        '}';
     }
 }

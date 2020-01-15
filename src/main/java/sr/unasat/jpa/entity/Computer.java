@@ -25,7 +25,7 @@ public class Computer {
     @JsonManagedReference
     @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "config_id")
-    private ComputerConfig config;
+    private ComputerConfig computerConfig;
 
     public Computer() {
 
@@ -63,12 +63,12 @@ public class Computer {
         this.receipts = receipts;
     }
 
-    public ComputerConfig getConfig() {
-        return config;
+    public ComputerConfig getComputerConfig() {
+        return computerConfig;
     }
 
-    public void setConfig(ComputerConfig config) {
-        this.config = config;
+    public void setComputerConfig(ComputerConfig config) {
+        this.computerConfig = config;
         calculatePrice();
     }
 
@@ -77,8 +77,8 @@ public class Computer {
             this.price = 0D;
         }
 
-        this.price += this.config.getSubTotal();
-        this.config.getHardwareList()
+        this.price += this.computerConfig.getSubTotal();
+        this.computerConfig.getHardwareList()
                 .forEach(hardware -> this.price += hardware.getHardwareStock().getPrice() * hardware.getAmount());
     }
 }

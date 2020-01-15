@@ -112,7 +112,7 @@ public class ComputerBuilder implements Builder {
 
     private boolean validateHardware(Hardware hardware, CategoryName specifiedCategory) {
         if (hardware != null) {
-            if (hardware.getHardwareStock().getCategory().getName().equals(specifiedCategory)) return true;
+            if (hardware.getHardwareStock().getCategory().getCategoryName().equals(specifiedCategory)) return true;
 
             throw new RuntimeException(String.format("Selected hardware [%1$s] does not match for specified category [%2$s]",
                     hardware.getHardwareStock().getName(), specifiedCategory));

@@ -15,7 +15,7 @@ public class PaymentType {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "name", nullable = false)
-    private PaymentTypeName paymentType;
+    private PaymentTypeName paymentTypeName;
 
     public PaymentType() {
     }
@@ -29,11 +29,11 @@ public class PaymentType {
     }
 
     public PaymentTypeName getName() {
-        return paymentType;
+        return paymentTypeName;
     }
 
     public void setName(PaymentTypeName paymentTypeName) {
-        this.paymentType = paymentTypeName;
+        this.paymentTypeName = paymentTypeName;
     }
 
     @Override
@@ -52,7 +52,7 @@ public class PaymentType {
     @Override
     public String toString() {
         return "PaymentType{" +
-                       "name='" + paymentType + '\'' +
+                       "name='" + paymentTypeName + '\'' +
                        '}';
     }
 }

@@ -20,7 +20,7 @@ public class ComputerConfig {
     private List<Hardware> hardwareList;
 
     @JsonBackReference
-    @OneToOne(mappedBy = "config")
+    @OneToOne(mappedBy = "computerConfig")
     private Computer computer;
 
     private boolean bluetooth;
