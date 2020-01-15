@@ -8,7 +8,6 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- *
  * @param <D> dao interface
  * @param <E> entity
  */
@@ -65,7 +64,12 @@ public class BaseServiceImpl<D extends BaseDao<E>, E> implements BaseService<E> 
     }
 
     @Override
-    public E findBy(Object o, String fieldName) {
-        return dao.findBy(o, fieldName);
+    public E findBy(Object object, String fieldName) throws NullPointerException {
+        return dao.findBy(object, fieldName);
+    }
+
+    @Override
+    public List<E> findAllBy(Object object, String fieldName) throws NullPointerException {
+        return dao.findAllBy(object, fieldName);
     }
 }

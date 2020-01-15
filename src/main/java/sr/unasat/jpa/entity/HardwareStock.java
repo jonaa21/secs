@@ -26,6 +26,7 @@ public class HardwareStock {
     private Double price;
 
     @ManyToOne
+    @JoinColumn(name = "brand_id")
     private Brand brand;
 
     @JsonManagedReference

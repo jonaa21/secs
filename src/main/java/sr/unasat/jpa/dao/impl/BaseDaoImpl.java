@@ -11,20 +11,20 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- *
  * @param <E> entity
  */
-public abstract class BaseDaoImpl<E> implements BaseDao<E> {
+public class BaseDaoImpl<E> implements BaseDao<E> {
 
     private final static String DEFAULT_FIND_ALL_QUERY = "SELECT e FROM %s e";
+    private final static String DEFAULT_FIND_ALL_BY_PARAMETER_QUERY = "SELECT e FROM %1$s e WHERE e.%2$s = :object";
     private final static String DEFAULT_FIND_BY_ID = "SELECT e FROM %s e WHERE e.id = :id";
     private final static String DEFAULT_FIND_BY_NAME = "SELECT e FROM %s e WHERE e.name = :name";
 
     private final EntityManager entityManager;
+    private final Class<E> parameterizedType;
     private String findAllQuery;
     private String findByIdQuery;
     private String findByNameQuery;
-    private final Class<E> parameterizedType;
 
     public BaseDaoImpl(EntityManager entityManager, Class<E> parameterizedType) {
         this.entityManager = entityManager;
@@ -71,7 +71,6 @@ public abstract class BaseDaoImpl<E> implements BaseDao<E> {
     }
 
     /**
-     *
      * @return list of all records from specified class
      */
     @Override
@@ -84,7 +83,6 @@ public abstract class BaseDaoImpl<E> implements BaseDao<E> {
     }
 
     /**
-     *
      * @param id entity id in specified class
      * @return result
      */
@@ -134,7 +132,6 @@ public abstract class BaseDaoImpl<E> implements BaseDao<E> {
     }
 
     /**
-     *
      * @param e entity to delete
      */
     @Override
@@ -144,7 +141,6 @@ public abstract class BaseDaoImpl<E> implements BaseDao<E> {
 
 
     /**
-     *
      * @param name value
      * @return entity
      */
@@ -157,8 +153,7 @@ public abstract class BaseDaoImpl<E> implements BaseDao<E> {
     }
 
     /**
-     *
-     * @param name value
+     * @param name      value
      * @param parameter field name
      * @return entity
      */
@@ -171,18 +166,42 @@ public abstract class BaseDaoImpl<E> implements BaseDao<E> {
         return query.getSingleResult();
     }
 
+    /**
+     * @param object    entire object to be queried on
+     * @param fieldName field name of property in <>E</>
+     * @return result
+     */
     @Override
-    public E findBy(Object object, String fieldName) {
+    public E findBy(Object object, String fieldName) throws NullPointerException {
         this.beginTransaction();
-        String jpql = String.format(findAllQuery + " WHERE e.%s = :object", fieldName);
-        TypedQuery<E> query = this.entityManager.createQuery(jpql, parameterizedType);
-        query.setParameter("object", object);
+        TypedQuery<E> query = getTypedQuery(object, fieldName);
         return query.getSingleResult();
     }
 
     /**
-     *
-     * @param e entity to be checked
+     * @param object    entire object to be queried on
+     * @param fieldName field name of property in <>E</>
+     * @return result list
+     */
+    @Override
+    public List<E> findAllBy(Object object, String fieldName) throws NullPointerException {
+        this.beginTransaction();
+        TypedQuery<E> query = getTypedQuery(object, fieldName);
+        return query.getResultList();
+    }
+
+    private TypedQuery<E> getTypedQuery(Object object, String fieldName) throws NullPointerException {
+        if (object == null) {
+            throw new NullPointerException();
+        }
+        String jpql = String.format(DEFAULT_FIND_ALL_BY_PARAMETER_QUERY, this.parameterizedType.getCanonicalName(), fieldName != null ? fieldName : "name");
+        TypedQuery<E> query = this.entityManager.createQuery(jpql, this.parameterizedType);
+        query.setParameter("object", object);
+        return query;
+    }
+
+    /**
+     * @param e          entity to be checked
      * @param collection collection of entity class
      * @return collection containing passed entity
      */

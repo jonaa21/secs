@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- *
  * @param <E> entity
  */
 public interface BaseService<E> {
@@ -22,9 +21,11 @@ public interface BaseService<E> {
 
     <T extends Collection<E>> void saveAll(T collection);
 
-     E findByName(String name);
+    E findByName(String name);
 
-     E findByName(String name, String parameter);
+    E findByName(String name, String parameter);
 
-     E findBy(Object o, String fieldName);
+    E findBy(Object object, String fieldName) throws NullPointerException;
+
+    List<E> findAllBy(Object object, String fieldName) throws NullPointerException;
 }

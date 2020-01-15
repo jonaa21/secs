@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- *
  * @param <E> entity
  */
 public interface BaseDao<E> {
@@ -26,5 +25,7 @@ public interface BaseDao<E> {
 
     E findByName(String name, String parameter);
 
-    E findBy(Object object, String fieldName);
+    E findBy(Object object, String fieldName) throws NullPointerException;
+
+    List<E> findAllBy(Object object, String fieldName) throws NullPointerException;
 }
