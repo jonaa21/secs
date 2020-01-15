@@ -1,4 +1,4 @@
-package sr.unasat.jpa.designPatterns.builder;
+package sr.unasat.jpa.design.patterns.builder;
 
 import sr.unasat.jpa.entity.Computer;
 import sr.unasat.jpa.entity.ComputerConfig;

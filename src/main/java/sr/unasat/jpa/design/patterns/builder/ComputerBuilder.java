@@ -1,8 +1,9 @@
-package sr.unasat.jpa.designPatterns.builder;
+package sr.unasat.jpa.design.patterns.builder;
 
 import sr.unasat.jpa.entity.Computer;
 import sr.unasat.jpa.entity.ComputerConfig;
 import sr.unasat.jpa.entity.Hardware;
+import sr.unasat.jpa.entity.enums.CategoryName;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,25 +21,25 @@ public class ComputerBuilder implements Builder {
 
     @Override
     public ComputerBuilder setMemory(Hardware memory) {
-        this.memory = memory;
+        if (validateHardware(memory, CategoryName.RAM)) this.memory = memory;
         return this;
     }
 
     @Override
     public ComputerBuilder setGpu(Hardware gpu) {
-        this.gpu = gpu;
+        if (validateHardware(memory, CategoryName.GPU)) this.gpu = gpu;
         return this;
     }
 
     @Override
     public ComputerBuilder setStorage(Hardware storage) {
-        this.storage = storage;
+        if (validateHardware(memory, CategoryName.STORAGE)) this.storage = storage;
         return this;
     }
 
     @Override
     public ComputerBuilder setCpu(Hardware cpu) {
-        this.cpu = cpu;
+        if (validateHardware(memory, CategoryName.CPU)) this.cpu = cpu;
         return this;
     }
 
@@ -107,5 +108,15 @@ public class ComputerBuilder implements Builder {
         config.setSubTotal(this.price);
 
         return config;
+    }
+
+    private boolean validateHardware(Hardware hardware, CategoryName specifiedCategory) {
+        if (hardware != null) {
+            if (hardware.getHardwareStock().getCategory().getName().equals(specifiedCategory)) return true;
+
+            throw new RuntimeException(String.format("Selected hardware [%1$s] does not match for specified category [%2$s]",
+                    hardware.getHardwareStock().getName(), specifiedCategory));
+        }
+        return false;
     }
 }
