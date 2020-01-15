@@ -1,0 +1,25 @@
+//TODO
+
+Create decorator pattern (Types of Computer Builds)
+Payment must be done in receipt service
+Create UI
+Reference data for hardware stock
+
+-----------------------
+-------IMPORTANT-------
+-----------------------
+
+* Reports:
+Most sold hardware
+Most sold hardware by brand between in period
+Payment methods
+Annual ales per product
+
+* Registration:
+Register user information
+Register products
+
+* Search:
+Hardware based on category
+Hardware based on brand
+Hardware based on price
