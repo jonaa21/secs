@@ -1,4 +1,6 @@
 package sr.unasat.jpa.dao;
 
-public interface UserDao {
+import sr.unasat.jpa.entity.User;
+
+public interface UserDao extends BaseDao<User> {
 }

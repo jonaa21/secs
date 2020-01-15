@@ -1,4 +1,6 @@
 package sr.unasat.jpa.dao;
 
-public interface ComputerConfigDao {
+import sr.unasat.jpa.entity.ComputerConfig;
+
+public interface ComputerConfigDao extends BaseDao<ComputerConfig> {
 }

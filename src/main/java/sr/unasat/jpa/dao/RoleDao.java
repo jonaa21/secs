@@ -1,4 +1,6 @@
 package sr.unasat.jpa.dao;
 
-public interface RoleDao {
+import sr.unasat.jpa.entity.Role;
+
+public interface RoleDao extends BaseDao<Role> {
 }

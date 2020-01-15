@@ -1,4 +1,6 @@
 package sr.unasat.jpa.dao;
 
-public interface HardwareDao {
+import sr.unasat.jpa.entity.Hardware;
+
+public interface HardwareDao extends BaseDao<Hardware> {
 }

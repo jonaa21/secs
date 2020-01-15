@@ -1,4 +1,6 @@
 package sr.unasat.jpa.dao;
 
-public interface CategoryDao {
+import sr.unasat.jpa.entity.Category;
+
+public interface CategoryDao extends BaseDao<Category> {
 }

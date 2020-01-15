@@ -1,4 +1,6 @@
 package sr.unasat.jpa.dao;
 
-public interface ReceiptDao {
+import sr.unasat.jpa.entity.Receipt;
+
+public interface ReceiptDao extends BaseDao<Receipt> {
 }

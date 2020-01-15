@@ -1,4 +1,6 @@
 package sr.unasat.jpa.dao;
 
-public interface BrandDao {
+import sr.unasat.jpa.entity.Brand;
+
+public interface BrandDao extends BaseDao<Brand> {
 }

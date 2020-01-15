@@ -9,7 +9,7 @@ import java.util.List;
 
 /**
  *
- * @param <D> dao
+ * @param <D> dao interface
  * @param <E> entity
  */
 public class BaseServiceImpl<D extends BaseDao<E>, E> implements BaseService<E> {

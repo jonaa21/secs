@@ -1,4 +1,6 @@
 package sr.unasat.jpa.dao;
 
-public interface PaymentTypeDao {
+import sr.unasat.jpa.entity.PaymentType;
+
+public interface PaymentTypeDao extends BaseDao<PaymentType> {
 }
