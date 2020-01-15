@@ -107,8 +107,7 @@ public class BaseDaoImpl<E> implements BaseDao<E> {
             this.entityManager.persist(e);
             getTransaction().commit();
         } else {
-            String msg = String.format("Can not add [%s] to database", e.toString());
-            throw new EntityExistsException(msg);
+            throw new EntityExistsException(String.format("Can not add [%s] to database", e.toString()));
         }
 
     }
@@ -194,10 +193,26 @@ public class BaseDaoImpl<E> implements BaseDao<E> {
         if (object == null) {
             throw new NullPointerException();
         }
-        String jpql = String.format(DEFAULT_FIND_ALL_BY_PARAMETER_QUERY, this.parameterizedType.getCanonicalName(), fieldName != null ? fieldName : "name");
+        String jpql = String.format(DEFAULT_FIND_ALL_BY_PARAMETER_QUERY,
+                this.parameterizedType.getCanonicalName(),
+                fieldName != null ? fieldName : extractEntityClassName(object));
+
         TypedQuery<E> query = this.entityManager.createQuery(jpql, this.parameterizedType);
         query.setParameter("object", object);
         return query;
+    }
+
+    private String extractEntityClassName(Object object) {
+        final Class<?> objectClass = object.getClass();
+
+        if (objectClass.getName().contains("java.lang")) {
+            if (objectClass.getSimpleName().equals("String")) return "name";
+
+            throw new RuntimeException(String.format("Please supply parameter name for object [%s]", this.parameterizedType.getCanonicalName()));
+        }
+
+        final String packageName = objectClass.getPackage().getName() + ".";
+        return objectClass.getTypeName().toLowerCase().replaceAll(packageName, "");
     }
 
     /**
