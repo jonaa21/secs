@@ -11,4 +11,6 @@ public interface HardwareStockDao extends BaseDao<HardwareStock> {
     List<HardwareStock> findAllStockByCategory(CategoryName category);
 
     List<HardwareStock> findAllStockByBrand(Brand brand);
+
+    List<HardwareStock> findAllStockBetween(Double leftOperand, Double rightOperand);
 }

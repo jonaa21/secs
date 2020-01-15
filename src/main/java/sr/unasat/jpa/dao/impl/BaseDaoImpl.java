@@ -59,7 +59,7 @@ public abstract class BaseDaoImpl<E> implements BaseDao<E> {
         transaction.begin();
     }
 
-    public TypedQuery<E> createQuery(String query) {
+    TypedQuery<E> createQuery(String query) {
         return this.entityManager.createQuery(query, parameterizedType);
     }
 
