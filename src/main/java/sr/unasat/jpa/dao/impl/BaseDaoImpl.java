@@ -127,7 +127,9 @@ public class BaseDaoImpl<E> implements BaseDao<E> {
      */
     @Override
     public E update(@NotNull E e) {
-        return this.entityManager.merge(e);
+        final E updated = this.entityManager.merge(e);
+        getTransaction().commit();
+        return updated;
     }
 
     /**
@@ -136,6 +138,7 @@ public class BaseDaoImpl<E> implements BaseDao<E> {
     @Override
     public void delete(E e) {
         this.entityManager.remove(e);
+        getTransaction().commit();
     }
 
 
@@ -148,7 +151,9 @@ public class BaseDaoImpl<E> implements BaseDao<E> {
         this.beginTransaction();
         TypedQuery<E> query = this.entityManager.createQuery(findByNameQuery, parameterizedType);
         query.setParameter("name", name);
-        return query.getSingleResult();
+        final E result = query.getSingleResult();
+        this.getTransaction().commit();
+        return result;
     }
 
     /**
@@ -162,7 +167,9 @@ public class BaseDaoImpl<E> implements BaseDao<E> {
         String jpql = String.format(findAllQuery + " WHERE e.%s = :name", parameter);
         TypedQuery<E> query = this.entityManager.createQuery(jpql, parameterizedType);
         query.setParameter(parameter, name);
-        return query.getSingleResult();
+        final E result = query.getSingleResult();
+        this.getTransaction().commit();
+        return result;
     }
 
     /**
@@ -174,7 +181,9 @@ public class BaseDaoImpl<E> implements BaseDao<E> {
     public E findBy(Object object, String fieldName) throws NullPointerException {
         this.beginTransaction();
         TypedQuery<E> query = getTypedQuery(object, fieldName);
-        return query.getSingleResult();
+        final E result = query.getSingleResult();
+        this.getTransaction().commit();
+        return result;
     }
 
     /**
@@ -186,7 +195,9 @@ public class BaseDaoImpl<E> implements BaseDao<E> {
     public List<E> findAllBy(Object object, String fieldName) throws NullPointerException {
         this.beginTransaction();
         TypedQuery<E> query = getTypedQuery(object, fieldName);
-        return query.getResultList();
+        final List<E> resultList = query.getResultList();
+        this.getTransaction().commit();
+        return resultList;
     }
 
     private TypedQuery<E> getTypedQuery(Object object, String fieldName) throws NullPointerException {

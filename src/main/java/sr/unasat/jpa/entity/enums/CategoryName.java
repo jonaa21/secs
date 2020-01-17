@@ -8,7 +8,6 @@ public enum CategoryName {
     GPU("GPU", "Graphics Processing Unit"),
     KEYBOARD("KEYBOARD", "Keyboard"),
     MOUSE("MOUSE", "Mouse"),
-    POWER_SUPPLY("POWER_SUPPLY", "Power Supply"),
     MONITOR("MONITOR", "Monitor"),
     CABLE("CABLE", "Cable");
 
