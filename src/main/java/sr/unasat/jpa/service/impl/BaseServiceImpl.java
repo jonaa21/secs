@@ -69,7 +69,17 @@ public class BaseServiceImpl<D extends BaseDao<E>, E> implements BaseService<E> 
     }
 
     @Override
+    public E findBy(Object object) throws NullPointerException {
+        return dao.findBy(object);
+    }
+
+    @Override
     public List<E> findAllBy(Object object, String fieldName) throws NullPointerException {
         return dao.findAllBy(object, fieldName);
+    }
+
+    @Override
+    public List<E> findAllBy(Object object) throws NullPointerException {
+        return dao.findAllBy(object);
     }
 }

@@ -27,5 +27,9 @@ public interface BaseDao<E> {
 
     E findBy(Object object, String fieldName) throws NullPointerException;
 
+    E findBy(Object object) throws NullPointerException;
+
     List<E> findAllBy(Object object, String fieldName) throws NullPointerException;
+
+    List<E> findAllBy(Object object) throws NullPointerException;
 }

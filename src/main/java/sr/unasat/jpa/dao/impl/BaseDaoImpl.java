@@ -186,6 +186,11 @@ public class BaseDaoImpl<E> implements BaseDao<E> {
         return result;
     }
 
+    @Override
+    public E findBy(Object object) {
+        return findBy(object, null);
+    }
+
     /**
      * @param object    entire object to be queried on
      * @param fieldName field name of property in <>E</>
@@ -198,6 +203,11 @@ public class BaseDaoImpl<E> implements BaseDao<E> {
         final List<E> resultList = query.getResultList();
         this.getTransaction().commit();
         return resultList;
+    }
+
+    @Override
+    public List<E> findAllBy(Object object) throws NullPointerException {
+        return findAllBy(object, null);
     }
 
     private TypedQuery<E> getTypedQuery(Object object, String fieldName) throws NullPointerException {
