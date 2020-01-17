@@ -152,6 +152,7 @@ CREATE TABLE IF NOT EXISTS `secs`.`hardware_stock`
     `size`        DOUBLE(10, 2) NOT NULL DEFAULT '0.00',
     `quantity`    INT(11)       NOT NULL DEFAULT '0',
     `price`       DOUBLE(10, 2) NOT NULL DEFAULT '0.00',
+    `unit`       VARCHAR(45)    NULL,
     `brand_id`    BIGINT(20)    NOT NULL,
     `category_id` BIGINT(20)    NOT NULL,
     PRIMARY KEY (`id`),
