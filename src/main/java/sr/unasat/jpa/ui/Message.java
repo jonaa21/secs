@@ -8,6 +8,7 @@ public class Message {
     static final String WELCOME_MSG = "Welcome to 'Set Eng Computer Sales', 'SECS' for short.\n" +
                                               "\nHere you can build your own personal computer " +
                                               "without even knowing what a computer is.";
+    static final String GOOD_BYE = "Thank you for visiting.\nGoodbye!";
 
     static final String EXIT = "Exit";
     static final String LOGOUT = "0. Log out";
@@ -47,10 +48,14 @@ public class Message {
         add("Accessories");
         add("Cart");
         add("User info");
-        add(LOGOUT);
     }};
 
-
+    static final List<String> BUILD_PC_MENU = new ArrayList<String>() {{
+        add("Memory modules");
+        add("Drive storage");
+        add("CPU");
+        add("Graphics");
+    }};
 
 
     public static final String SECS_LOGO = "\n" +

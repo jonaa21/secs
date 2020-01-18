@@ -10,7 +10,7 @@ public class MainMenu extends MenuFunctionality {
 
     private void startMainMenu() {
 
-        this.showMenu(Message.MAIN_MENU);
+        this.toMainMenu();
     }
 
     @Override
@@ -18,24 +18,31 @@ public class MainMenu extends MenuFunctionality {
 
         int option = this.getScanner().nextInt();
 
+        MenuFunctionality menu;
         switch (option) {
             case 1:
                 //BUILD PC
+                menu = new BuildPcMenu();
                 break;
             case 2:
                 //PREDEFINED BUILD
+//                menu = new PredefinedPcMenu();
                 break;
             case 3:
                 //ACCESSORIES
+//                menu = new AccessoriesMenu();
                 break;
             case 4:
                 //CART
+//                menu = new CartMenu();
                 break;
             case 5:
                 //USER INFO
+//                menu = new UserInfoMenu();
                 break;
             case 0:
-
+                System.out.println(Message.GOOD_BYE);
+                System.exit(0);
         }
     }
 }
