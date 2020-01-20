@@ -9,7 +9,8 @@ public enum CategoryName {
     KEYBOARD("KEYBOARD", "Keyboard"),
     MOUSE("MOUSE", "Mouse"),
     MONITOR("MONITOR", "Monitor"),
-    CABLE("CABLE", "Cable");
+    CABLE("CABLE", "Cable"),
+    EXTRA_FEATURES("EXTRA_FEATURES", "Extra Features");
 
     private String category;
     private String description;

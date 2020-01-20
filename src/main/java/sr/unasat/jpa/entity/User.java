@@ -29,6 +29,13 @@ public class User {
     public User() {
     }
 
+    public User(String firstName, String lastName, String idNumber, Double balance) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.idNumber = idNumber;
+        this.balance = balance;
+    }
+
     public Long getId() {
         return id;
     }

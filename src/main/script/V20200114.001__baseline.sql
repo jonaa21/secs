@@ -129,9 +129,9 @@ CREATE TABLE IF NOT EXISTS `secs`.`customer`
 (
     `id`              BIGINT(20)  NOT NULL AUTO_INCREMENT,
     `user_id`         BIGINT(20)  NOT NULL,
-    `customer_number` VARCHAR(45) NOT NULL,
+    `user_name`       VARCHAR(45) NOT NULL,
     PRIMARY KEY (`id`),
-    UNIQUE INDEX `customer_number_UNIQUE` (`customer_number` ASC) VISIBLE,
+    UNIQUE INDEX `user_name_UNIQUE` (`user_name` ASC) VISIBLE,
     INDEX `FK_customer_ref_person_idx` (`user_id` ASC) VISIBLE,
     CONSTRAINT `FK_customer_ref_user`
         FOREIGN KEY (`user_id`)

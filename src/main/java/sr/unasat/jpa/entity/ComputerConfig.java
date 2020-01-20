@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 
 @Table(name = "computer_config")
 @Entity
@@ -112,5 +113,41 @@ public class ComputerConfig {
 
     public void setSubTotal(Double subTotal) {
         this.subTotal = subTotal;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) return true;
+        if (object == null || getClass() != object.getClass()) return false;
+        ComputerConfig config = (ComputerConfig) object;
+        return isBluetooth() == config.isBluetooth() &&
+                       isThunderbolt() == config.isThunderbolt() &&
+                       isLte() == config.isLte() &&
+                       isTouchScreen() == config.isTouchScreen() &&
+                       isTwoInOne() == config.isTwoInOne() &&
+                       getId().equals(config.getId()) &&
+                       getHardwareList().equals(config.getHardwareList()) &&
+                       getComputer().equals(config.getComputer()) &&
+                       Objects.equals(getSubTotal(), config.getSubTotal());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getHardwareList(), getComputer(), isBluetooth(), isThunderbolt(), isLte(), isTouchScreen(), isTwoInOne(), getSubTotal());
+    }
+
+    @Override
+    public String toString() {
+        return "ComputerConfig{" +
+                       "id=" + id +
+                       ", hardwareList=" + hardwareList +
+                       ", computer=" + computer +
+                       ", bluetooth=" + bluetooth +
+                       ", thunderbolt=" + thunderbolt +
+                       ", lte=" + lte +
+                       ", touchScreen=" + touchScreen +
+                       ", twoInOne=" + twoInOne +
+                       ", subTotal=" + subTotal +
+                       '}';
     }
 }

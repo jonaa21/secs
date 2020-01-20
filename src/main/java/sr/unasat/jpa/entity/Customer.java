@@ -14,8 +14,16 @@ public class Customer {
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private User user;
 
-    @Column(name = "customer_number", nullable = false, unique = true)
-    private String customerNumber;
+    @Column(name = "user_name", nullable = false, unique = true)
+    private String userName;
+
+    public Customer() {
+    }
+
+    public Customer(User user, String userName) {
+        this.user = user;
+        this.userName = userName;
+    }
 
     public Long getId() {
         return id;
@@ -33,12 +41,12 @@ public class Customer {
         this.user = user;
     }
 
-    public String getCustomerNumber() {
-        return customerNumber;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setCustomerNumber(String customerNumber) {
-        this.customerNumber = customerNumber;
+    public void setUserName(String customerNumber) {
+        this.userName = customerNumber;
     }
 
     @Override
@@ -47,19 +55,19 @@ public class Customer {
         if (object == null || getClass() != object.getClass()) return false;
         Customer customer = (Customer) object;
         return getUser().equals(customer.getUser()) &&
-                       getCustomerNumber().equals(customer.getCustomerNumber());
+                       getUserName().equals(customer.getUserName());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getUser(), getCustomerNumber());
+        return Objects.hash(getUser(), getUserName());
     }
 
     @Override
     public String toString() {
         return "Customer{" +
                        "user=" + user +
-                       ", customerNumber='" + customerNumber + '\'' +
+                       ", userName='" + userName + '\'' +
                        '}';
     }
 }

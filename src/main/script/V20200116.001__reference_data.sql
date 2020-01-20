@@ -73,6 +73,8 @@ INSERT INTO `category` (`id`, `name`)
 VALUES (7, 'MONITOR');
 INSERT INTO `category` (`id`, `name`)
 VALUES (8, 'CABLE');
+INSERT INTO `category` (`id`, `name`)
+VALUES (9, 'EXTRA_FEATURES');
 
 --
 -- Dumping data for table `computer`
