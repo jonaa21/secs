@@ -44,36 +44,36 @@ public class ComputerBuilder implements Builder {
     }
 
     @Override
-    public ComputerBuilder withBluetooth() {
-        this.bluetooth = true;
+    public ComputerBuilder withBluetooth(boolean bluetooth) {
+        this.bluetooth = bluetooth;
         this.price += 30.00D;
         return this;
     }
 
     @Override
-    public ComputerBuilder withThunderbolt() {
-        this.thunderbolt = true;
+    public ComputerBuilder withThunderbolt(boolean thunderbolt) {
+        this.thunderbolt = thunderbolt;
         this.price += 45.00D;
         return this;
     }
 
     @Override
-    public ComputerBuilder withLte() {
-        this.lte = true;
+    public ComputerBuilder withLte(boolean lte) {
+        this.lte = lte;
         this.price += 65.00D;
         return this;
     }
 
     @Override
-    public ComputerBuilder withTouchScreen() {
-        this.touchScreen = true;
+    public ComputerBuilder withTouchScreen(boolean touchScreen) {
+        this.touchScreen = touchScreen;
         this.price += 110.00D;
         return this;
     }
 
     @Override
-    public ComputerBuilder withTwoInOne() {
-        this.twoInOne = true;
+    public ComputerBuilder withTwoInOne(boolean twoInOne) {
+        this.twoInOne = twoInOne;
         this.price += 60.00D;
         return this;
     }

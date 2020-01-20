@@ -8,7 +8,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @param <E> entity
@@ -25,6 +27,7 @@ public class BaseDaoImpl<E> implements BaseDao<E> {
     private String findAllQuery;
     private String findByIdQuery;
     private String findByNameQuery;
+    private Map<String, Object> parameterMap = new HashMap<>();
 
     public BaseDaoImpl(EntityManager entityManager, Class<E> parameterizedType) {
         this.entityManager = entityManager;
@@ -62,8 +65,15 @@ public class BaseDaoImpl<E> implements BaseDao<E> {
         transaction.begin();
     }
 
-    TypedQuery<E> createQuery(String query) {
-        return this.entityManager.createQuery(query, parameterizedType);
+    TypedQuery<E> createQuery(String query, String... parameters) {
+        TypedQuery<E> typedQuery = this.entityManager.createQuery(query, parameterizedType);
+
+        for (String parameter : parameters) {
+            Object value = this.parameterMap.get(parameter);
+            typedQuery.setParameter(parameter, value);
+        }
+
+        return typedQuery;
     }
 
     private EntityTransaction getTransaction() {
@@ -243,6 +253,10 @@ public class BaseDaoImpl<E> implements BaseDao<E> {
      */
     private boolean alreadyExists(E e, List<E> collection) {
         return collection.contains(e);
+    }
+
+    public void setParameters(String parameterName, Object value) {
+        this.parameterMap.put(parameterName, value);
     }
 
 }

@@ -1,6 +1,7 @@
 package sr.unasat.jpa.service.impl;
 
 import sr.unasat.jpa.dao.BaseDao;
+import sr.unasat.jpa.entity.Customer;
 import sr.unasat.jpa.service.BaseService;
 
 import javax.persistence.EntityExistsException;
@@ -14,6 +15,7 @@ import java.util.List;
 public class BaseServiceImpl<D extends BaseDao<E>, E> implements BaseService<E> {
 
     protected D dao;
+    private static Customer loggedInCustomer;
 
     BaseServiceImpl(D dao) {
         this.dao = dao;
@@ -81,5 +83,13 @@ public class BaseServiceImpl<D extends BaseDao<E>, E> implements BaseService<E> 
     @Override
     public List<E> findAllBy(Object object) throws NullPointerException {
         return dao.findAllBy(object);
+    }
+
+    public static Customer getLoggedInCustomer() {
+        return loggedInCustomer;
+    }
+
+    public static void setLoggedInCustomer(Customer loggedInCustomer) {
+        BaseServiceImpl.loggedInCustomer = loggedInCustomer;
     }
 }

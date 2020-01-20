@@ -19,7 +19,7 @@ public class HardwareStockDaoImpl extends BaseDaoImpl<HardwareStock> implements 
     @Override
     public List<HardwareStock> findAllStockByCategory(CategoryName category) {
         this.beginTransaction();
-        String jpql = "SELECT hs FROM HardwareStock hs WHERE hs.category.name = :category";
+        String jpql = "SELECT hs FROM HardwareStock hs WHERE hs.category.categoryName = :category";
         TypedQuery<HardwareStock> query = this.createQuery(jpql);
         query.setParameter("category", category);
         return query.getResultList();

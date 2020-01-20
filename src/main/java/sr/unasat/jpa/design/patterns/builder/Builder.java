@@ -16,15 +16,15 @@ public interface Builder {
 
     ComputerBuilder setCpu(Hardware cpu);
 
-    ComputerBuilder withBluetooth();
+    ComputerBuilder withBluetooth(boolean bluetooth);
 
-    ComputerBuilder withThunderbolt();
+    ComputerBuilder withThunderbolt(boolean thunderbolt);
 
-    ComputerBuilder withLte();
+    ComputerBuilder withLte(boolean lte);
 
-    ComputerBuilder withTouchScreen();
+    ComputerBuilder withTouchScreen(boolean touchScreen);
 
-    ComputerBuilder withTwoInOne();
+    ComputerBuilder withTwoInOne(boolean twoInOne);
 
     ComputerConfig build();
 
