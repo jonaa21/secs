@@ -7,7 +7,6 @@ import sr.unasat.jpa.entity.enums.CategoryName;
 import sr.unasat.jpa.service.impl.HardwareStockService;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static sr.unasat.jpa.entity.enums.CategoryName.*;
 
@@ -45,6 +44,8 @@ public class BuildPcScreen extends MenuScreen {
                 break;
             case 6:
                 config = this.builder.build();
+                menuScreen = this.goBack();
+                //TODO FINISH THIS
                 break;
             case 7:
                 addToCart();
@@ -52,7 +53,8 @@ public class BuildPcScreen extends MenuScreen {
                 menuScreen = goBack();
                 break;
             default:
-                this.showMenu();
+                this.showMenuItems(this.getMenu());
+                return;
         }
 
         if (menuScreen != null && menuScreen.getMenu().containsAll(Message.EXTRA_FEATURE_MENU)) {
@@ -98,23 +100,31 @@ public class BuildPcScreen extends MenuScreen {
 
     private void buildComputer(HardwareStock stock, CategoryName categoryName) {
 
-        System.out.println(Message.AMOUNT);
+        System.out.print(Message.AMOUNT);
         Hardware hardware = new Hardware(stock, this.getSelection());
 
-        switch (categoryName) {
-            case RAM:
-                BuildPcScreen.this.builder.setMemory(hardware);
-                break;
-            case CPU:
-                BuildPcScreen.this.builder.setCpu(hardware);
-                break;
-            case GPU:
-                BuildPcScreen.this.builder.setGpu(hardware);
-                break;
-            case STORAGE:
-                BuildPcScreen.this.builder.setStorage(hardware);
+        try {
+            switch (categoryName) {
+                case RAM:
+                    BuildPcScreen.this.builder.setMemory(hardware);
+                    break;
+                case CPU:
+                    BuildPcScreen.this.builder.setCpu(hardware);
+                    break;
+                case GPU:
+                    BuildPcScreen.this.builder.setGpu(hardware);
+                    break;
+                case STORAGE:
+                    BuildPcScreen.this.builder.setStorage(hardware);
+                    break;
+            }
+            System.out.println("\nAdded to configuration!\n");
+            MenuScreen.menuStack.pop();
+            this.goToMenu(MenuScreen.menuStack.peek());
+        } catch (RuntimeException e) {
+            System.out.println(e.getMessage());
+            this.goBack().showMenu();
         }
-        this.showMenu();
     }
 
     private class InnerMenuScreen extends MenuScreen {
@@ -128,7 +138,7 @@ public class BuildPcScreen extends MenuScreen {
 
         @Override
         public void showMenu() {
-            this.showMenuItems(this.getMenu());
+            this.showMenuItems(InnerMenuScreen.this.getMenu());
 
             int option = getSelection();
             HardwareStockService hardwareStockService = controller.getHardwareStockService();
@@ -136,24 +146,20 @@ public class BuildPcScreen extends MenuScreen {
 
             switch (option) {
                 case 1:
-                    stocks = hardwareStockService.findAllStockByCategory(categoryName);
+                    stocks = hardwareStockService.findAllStockByCategory(this.categoryName);
                     break;
                 case 2:
-                    List<String> brands = controller.getBrandService()
-                                                  .findAll()
-                                                  .stream()
-                                                  .map(Brand::getName)
-                                                  .collect(Collectors.toList());
-                    this.showMenuItems(brands);
+                    List<Brand> brands = controller.getBrandService().findBrandsByCategoryName(this.categoryName);
+                    this.showMenuItems(brands, Brand.class);
                     option = getSelection();
-                    stocks = hardwareStockService.findAllBy((long) option, "brand.id");
+                    stocks = hardwareStockService.findAllStockByCategoryAndBrandId(categoryName, (long) option);
                     break;
                 case BACK:
                     goBack().showMenu();
                     return;
                 default:
-                    InnerMenuScreen.this.showMenu();
-                    break;
+                    InnerMenuScreen.this.showMenuItems(InnerMenuScreen.this.getMenu());
+                    return;
             }
 
             if (stocks != null && !stocks.isEmpty()) {
@@ -165,9 +171,12 @@ public class BuildPcScreen extends MenuScreen {
                 }
                 HardwareStock hardwareStock = hardwareStockService.findById((long) option);
 
-                BuildPcScreen.this.buildComputer(hardwareStock, categoryName);
+                BuildPcScreen.this.buildComputer(hardwareStock, this.categoryName);
+            } else {
+                System.out.println(String.format(Message.NOT_FOUND, "Results"));
+                MenuScreen.menuStack.pop();
+                this.goToMenu(InnerMenuScreen.this);
             }
-            BuildPcScreen.this.showMenu();
         }
     }
 }

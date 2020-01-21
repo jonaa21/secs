@@ -31,4 +31,8 @@ public class HardwareStockService extends BaseServiceImpl<HardwareStockDao, Hard
         return stockDao.findAllStockBetween(leftOperand, rightOperand);
     }
 
+    public List<HardwareStock> findAllStockByCategoryAndBrandId(CategoryName categoryName, Long brandId) {
+        return stockDao.findAllStockByCategoryAndBrand_Id(categoryName, brandId);
+    }
+
 }

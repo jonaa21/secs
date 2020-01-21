@@ -13,9 +13,9 @@ public abstract class MenuScreen {
     public static final int BACK = 0;
     private static final String MENU_TEMPLATE = "%1$s. %2$s";
     private static Map<List<String>, MenuScreen> menuMap = new HashMap();
-    private static Stack<MenuScreen> menuStack = new Stack<>();
+    protected static Stack<MenuScreen> menuStack = new Stack<>();
     private static Scanner scanner = new Scanner(System.in);
-    public AppController controller = new AppController();
+    public static final AppController controller = new AppController();
     private List<String> menu;
 
     MenuScreen(List<String> menu) {
@@ -26,7 +26,7 @@ public abstract class MenuScreen {
     public abstract void showMenu();
 
     MenuScreen goBack() {
-        if (!menuStack.isEmpty()) {
+        if (!menuStack.isEmpty() && menuStack.size() > 1) {
             menuStack.pop();
         }
 
@@ -57,7 +57,7 @@ public abstract class MenuScreen {
         }
 
         if (menu == null || menu.isEmpty()) {
-            throw new RuntimeException("An unexpected error occured");
+            throw new RuntimeException(Message.UNEXPECTED_ERROR);
         }
 
         for (String item : menu) {

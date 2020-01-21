@@ -46,4 +46,15 @@ public class HardwareStockDaoImpl extends BaseDaoImpl<HardwareStock> implements 
         query.setParameter("rightOperand", rightOperand);
         return query.getResultList();
     }
+
+    @Override
+    public List<HardwareStock> findAllStockByCategoryAndBrand_Id(CategoryName categoryName, Long brandId) {
+        this.beginTransaction();
+        String jpql = "SELECT hs from HardwareStock hs WHERE hs.category.categoryName = :categoryName AND hs.brand.id = :brandId";
+        this.setParameters("categoryName", categoryName);
+        this.setParameters("brandId", brandId);
+        TypedQuery<HardwareStock> query = this.createQuery(jpql, "categoryName", "brandId");
+        this.commitQuery();
+        return query.getResultList();
+    }
 }

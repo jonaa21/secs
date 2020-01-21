@@ -137,6 +137,7 @@ public class BaseDaoImpl<E> implements BaseDao<E> {
      */
     @Override
     public E update(@NotNull E e) {
+        this.beginTransaction();
         final E updated = this.entityManager.merge(e);
         getTransaction().commit();
         return updated;
@@ -147,6 +148,7 @@ public class BaseDaoImpl<E> implements BaseDao<E> {
      */
     @Override
     public void delete(E e) {
+        this.beginTransaction();
         this.entityManager.remove(e);
         getTransaction().commit();
     }
@@ -220,6 +222,11 @@ public class BaseDaoImpl<E> implements BaseDao<E> {
         return findAllBy(object, null);
     }
 
+    @Override
+    public void commitQuery() {
+        this.getTransaction().commit();
+    }
+
     private TypedQuery<E> getTypedQuery(Object object, String fieldName) throws NullPointerException {
         if (object == null) {
             throw new NullPointerException();
@@ -255,6 +262,10 @@ public class BaseDaoImpl<E> implements BaseDao<E> {
         return collection.contains(e);
     }
 
+    /**
+     * @param parameterName name of the passed parameter
+     * @param value of object
+     */
     public void setParameters(String parameterName, Object value) {
         this.parameterMap.put(parameterName, value);
     }

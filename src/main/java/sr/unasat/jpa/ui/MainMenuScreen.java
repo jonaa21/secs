@@ -33,11 +33,16 @@ public class MainMenuScreen extends MenuScreen {
                 break;
             case 4:
                 menuScreen = new CartScreen();
+                break;
+            case 5:
+                menuScreen = new UserInfoScreen();
+                break;
             case BACK:
                 System.out.println(Message.GOOD_BYE);
                 System.exit(0);
             default:
                 this.showMenuItems(this.getMenu());
+                return;
         }
         this.goToMenu(menuScreen);
     }

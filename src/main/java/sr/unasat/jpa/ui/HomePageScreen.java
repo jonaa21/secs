@@ -4,6 +4,8 @@ import sr.unasat.jpa.entity.User;
 
 public class HomePageScreen extends MenuScreen {
 
+    private MenuScreen menuScreen = null;
+
     public HomePageScreen() {
         super(Message.HOME_PAGE);
         System.out.println(Message.SMALL_LOGO);
@@ -14,7 +16,6 @@ public class HomePageScreen extends MenuScreen {
     public void showMenu() {
         this.showMenuItems(this.getMenu());
 
-        MenuScreen menuScreen = null;
         int option = this.getSelection();
 
         switch (option) {
@@ -25,8 +26,8 @@ public class HomePageScreen extends MenuScreen {
                 menuScreen = new LoginScreen();
                 break;
             default:
-                this.showMenu();
-                break;
+                this.showMenuItems(this.getMenu());
+                return;
         }
 
         this.goToMenu(menuScreen);
@@ -41,29 +42,31 @@ public class HomePageScreen extends MenuScreen {
         @Override
         public void showMenu() {
 
-            System.out.print("Username: ");
-            String userName = this.getScanner().next();
+            System.out.print(Message.USER_NAME);
+            String userName = this.getScanner().next().toLowerCase();
 
-            System.out.print("First name: ");
+            System.out.print(Message.FIRST_NAME);
             String firstName = this.getScanner().next();
 
-            System.out.println("Last name: ");
+            System.out.print(Message.LAST_NAME);
             String lastName = this.getScanner().next();
 
-            System.out.println("ID number: ");
+            System.out.print(Message.ID_NUMBER);
             String idNumber = this.getScanner().next();
 
-            System.out.println("Buy balance: ");
+            System.out.print("Buy " + Message.BALANCE.toLowerCase());
             Double balance = this.getScanner().nextDouble();
 
             if (userName != null && firstName != null && lastName != null && idNumber != null) {
                 User user = new User(firstName, lastName, idNumber, balance);
-                this.controller.getCustomerService().saveCustomer(user, userName);
+                boolean isSaved = this.controller.getCustomerService().saveCustomer(user, userName);
+
+                HomePageScreen.this.menuScreen = isSaved ? new LoginScreen() : this.goBack();
             } else {
                 System.out.println("You have empty fields.\nPlease try again.\n");
                 CreateAccountScreen.this.showMenu();
             }
-
+            this.goToMenu(HomePageScreen.this.menuScreen);
         }
     }
 
@@ -76,12 +79,12 @@ public class HomePageScreen extends MenuScreen {
         public void showMenu() {
 
             System.out.println("Enter the following to log in\n");
-            System.out.print(Message.USER_NAME + ": ");
-            String userName = this.getScanner().next();
+            System.out.print(Message.USER_NAME);
+            String userName = this.getScanner().next().toLowerCase();
 
             boolean loggedIn = this.controller.getCustomerService().loginUser(userName);
-            MenuScreen menuScreen = loggedIn ? new MainMenuScreen() : this.goBack();
-            this.goToMenu(menuScreen);
+            HomePageScreen.this.menuScreen = loggedIn ? new MainMenuScreen() : this.goBack();
+            this.goToMenu(HomePageScreen.this.menuScreen);
         }
     }
 }

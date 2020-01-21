@@ -27,19 +27,19 @@ public class ComputerBuilder implements Builder {
 
     @Override
     public ComputerBuilder setGpu(Hardware gpu) {
-        if (validateHardware(memory, CategoryName.GPU)) this.gpu = gpu;
+        if (validateHardware(gpu, CategoryName.GPU)) this.gpu = gpu;
         return this;
     }
 
     @Override
     public ComputerBuilder setStorage(Hardware storage) {
-        if (validateHardware(memory, CategoryName.STORAGE)) this.storage = storage;
+        if (validateHardware(storage, CategoryName.STORAGE)) this.storage = storage;
         return this;
     }
 
     @Override
     public ComputerBuilder setCpu(Hardware cpu) {
-        if (validateHardware(memory, CategoryName.CPU)) this.cpu = cpu;
+        if (validateHardware(cpu, CategoryName.CPU)) this.cpu = cpu;
         return this;
     }
 

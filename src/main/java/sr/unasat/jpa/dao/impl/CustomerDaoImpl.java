@@ -6,6 +6,7 @@ import sr.unasat.jpa.entity.Customer;
 import sr.unasat.jpa.entity.User;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
 public class CustomerDaoImpl extends BaseDaoImpl<Customer> implements CustomerDao {
@@ -26,11 +27,13 @@ public class CustomerDaoImpl extends BaseDaoImpl<Customer> implements CustomerDa
     }
 
     @Override
-    public Customer findCustomerByUserName(String userName) {
+    public Customer findCustomerByUserName(String userName) throws NoResultException {
         this.beginTransaction();
         String jpql = "SELECT c FROM Customer c where c.userName = :userName";
         this.setParameters("userName", userName);
         TypedQuery<Customer> query = this.createQuery(jpql, "userName");
-        return query.getSingleResult();
+        Customer result = query.getSingleResult();
+        this.commitQuery();
+        return result;
     }
 }

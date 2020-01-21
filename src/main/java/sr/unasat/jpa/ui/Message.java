@@ -20,10 +20,15 @@ public class Message {
     static final String DELETE = "Delete";
     static final String VIEW = "View";
     static final String BACK = "0. Back";
-    static final String USER_NAME = "Username";
-    static final String PASSWORD = "Password";
+    static final String USER_NAME = "Username: ";
+    static final String FIRST_NAME = "First name: ";
+    static final String LAST_NAME = "Last name: ";
+    static final String ID_NUMBER = "ID number: ";
+    static final String BALANCE = "Balance: ";
     static final String WELCOME_MENU_MSG = "\n****Welcome to the %s menu****\n";
     static final String ENTER_NUMBER = "\nPlease enter a number to continue: ";
+    public static final String NOT_FOUND = "[%s] not found.\nPlease try again.\n";
+    public static final String UNEXPECTED_ERROR = "An unexpected error occurred";
 
 
     static final List<String> HOME_PAGE = new ArrayList<String>() {{
@@ -43,14 +48,14 @@ public class Message {
     }};
 
     static final List<String> USER_INFO = new ArrayList<String>() {{
-        add("First Name");
-        add("Last Name");
-        add("ID Number");
+        add(FIRST_NAME);
+        add(LAST_NAME);
+        add(ID_NUMBER);
         add(USER_NAME);
 
         //TODO: Nice to have
-        add(PASSWORD);
-        add(String.format("Retype %s", PASSWORD));
+//        add(PASSWORD);
+//        add(String.format("Retype %s", PASSWORD));
     }};
 
     static final List<String> MAIN_MENU = new ArrayList<String>() {{

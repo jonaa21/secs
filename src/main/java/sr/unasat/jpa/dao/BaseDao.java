@@ -32,4 +32,6 @@ public interface BaseDao<E> {
     List<E> findAllBy(Object object, String fieldName) throws NullPointerException;
 
     List<E> findAllBy(Object object) throws NullPointerException;
+
+    void commitQuery();
 }

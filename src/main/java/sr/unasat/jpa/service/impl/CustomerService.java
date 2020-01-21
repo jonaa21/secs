@@ -4,8 +4,11 @@ import sr.unasat.jpa.dao.CustomerDao;
 import sr.unasat.jpa.dao.impl.CustomerDaoImpl;
 import sr.unasat.jpa.entity.Customer;
 import sr.unasat.jpa.entity.User;
+import sr.unasat.jpa.ui.Message;
 
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 
 public class CustomerService extends BaseServiceImpl<CustomerDao, Customer> {
 
@@ -17,19 +20,33 @@ public class CustomerService extends BaseServiceImpl<CustomerDao, Customer> {
     }
 
 
-    public void saveCustomer(User user, String userName) {
-        customerDao.save(user, userName);
+    public boolean saveCustomer(User user, String userName) {
+        try {
+            customerDao.save(user, userName);
+            return true;
+        } catch (EntityExistsException e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
     }
 
-    public Customer findCustomerByUserName(String userName) { return customerDao.findCustomerByUserName(userName); }
+    public Customer findCustomerByUserName(String userName) throws NoResultException {
+        return customerDao.findCustomerByUserName(userName);
+    }
 
-    public Customer findByUser(User user) { return customerDao.findBy(user); }
+    public Customer findByUser(User user) {
+        return customerDao.findBy(user);
+    }
 
     public boolean loginUser(String userName) {
-        Customer customer = findCustomerByUserName(userName);
-        if (customer != null) {
-            setLoggedInCustomer(customer);
-            return true;
+        try {
+            Customer customer = findCustomerByUserName(userName);
+            if (customer != null) {
+                setLoggedInCustomer(customer);
+                return true;
+            }
+        } catch (NoResultException e) {
+            System.out.println(String.format(Message.NOT_FOUND, userName));
         }
         return false;
     }
