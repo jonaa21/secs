@@ -19,11 +19,11 @@ public class CustomerDaoImpl extends BaseDaoImpl<Customer> implements CustomerDa
     }
 
     @Override
-    public void save(User user, String userName) {
+    public Customer save(User user, String userName) {
         User savedUser = userDao.saveUser(user);
 
         Customer customer = new Customer(savedUser, userName);
-        super.save(customer);
+        return super.save(customer);
     }
 
     @Override

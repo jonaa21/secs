@@ -5,7 +5,7 @@ import sr.unasat.jpa.entity.User;
 
 public interface CustomerDao extends BaseDao<Customer> {
 
-    void save(User user, String userName);
+    Customer save(User user, String userName);
 
     Customer findCustomerByUserName(String userName);
 }

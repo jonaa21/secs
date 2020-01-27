@@ -115,12 +115,13 @@ public class BaseDaoImpl<E> implements BaseDao<E> {
      * @param e entity to save
      */
     @Override
-    public void save(E e) throws EntityExistsException {
+    public E save(E e) throws EntityExistsException {
 
         if (!alreadyExists(e, findAll())) {
             beginTransaction();
             this.entityManager.persist(e);
             getTransaction().commit();
+            return e;
         } else {
             throw new EntityExistsException(String.format("Can not add [%s] to database", e.toString()));
         }
@@ -153,6 +154,9 @@ public class BaseDaoImpl<E> implements BaseDao<E> {
      */
     @Override
     public void delete(E e) {
+        if (e == null) {
+            throw new NullPointerException(String.format("Unable to delete [%s]", e));
+        }
         this.beginTransaction();
         this.entityManager.remove(e);
         getTransaction().commit();

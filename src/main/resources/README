@@ -1,6 +1,6 @@
 //TODO
 
-Create decorator pattern (Types of Computer Builds)
+Create decorator pattern (Types of Computer Builds) (DONE)
 Payment must be done in receipt service
 Create UI (PENDING)
 Reference data for hardware stock (DONE)
@@ -23,7 +23,7 @@ Register products
 * Search:
 Hardware based on category (DONE)
 Hardware based on brand (DONE)
-Hardware based on price
+Hardware based on price (DONE)
 
 * CRUD:
 Create: create users (DONE)

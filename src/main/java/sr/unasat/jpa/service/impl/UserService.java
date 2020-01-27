@@ -12,8 +12,8 @@ public class UserService extends BaseServiceImpl<UserDao, User> {
         super(new UserDaoImpl(entityManager));
     }
 
-    public void saveUser(User user) {
-        this.getDao().saveUser(user);
+    public User saveUser(User user) {
+        return this.getDao().saveUser(user);
     }
 
     public User findByFirstNameAndLastName(String firstName, String lastName) { return this.getDao().findByFirstNameAndLastName(firstName, lastName); }

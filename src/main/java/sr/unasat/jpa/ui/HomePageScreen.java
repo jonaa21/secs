@@ -1,5 +1,6 @@
 package sr.unasat.jpa.ui;
 
+import sr.unasat.jpa.entity.Customer;
 import sr.unasat.jpa.entity.User;
 
 public class HomePageScreen extends MenuScreen {
@@ -58,11 +59,11 @@ public class HomePageScreen extends MenuScreen {
             System.out.print("Buy " + Message.BALANCE.toLowerCase());
             Double balance = this.getScanner().nextDouble();
 
-            if (userName != null && firstName != null && lastName != null && idNumber != null) {
+            if (!userName.isEmpty() && firstName != null && lastName != null && idNumber != null) {
                 User user = new User(firstName, lastName, idNumber, balance);
-                boolean isSaved = this.controller.getCustomerService().saveCustomer(user, userName);
+                Customer customer = controller.getCustomerService().saveCustomer(user, userName);
 
-                HomePageScreen.this.menuScreen = isSaved ? new LoginScreen() : this.goBack();
+                HomePageScreen.this.menuScreen = customer != null ? new LoginScreen() : this.goBack();
             } else {
                 System.out.println("You have empty fields.\nPlease try again.\n");
                 CreateAccountScreen.this.showMenu();
@@ -83,8 +84,17 @@ public class HomePageScreen extends MenuScreen {
             System.out.print(Message.USER_NAME);
             String userName = this.getScanner().next().toLowerCase();
 
-            boolean loggedIn = this.controller.getCustomerService().loginUser(userName);
-            HomePageScreen.this.menuScreen = loggedIn ? new MainMenuScreen() : this.goBack();
+            controller.getCustomerService().loginUser(userName);
+            HomePageScreen.this.menuScreen = null;
+
+            if (getLoggedInCustomer() != null) {
+                User user = getLoggedInCustomer().getUser();
+                HomePageScreen.this.menuScreen = (user != null && user.getRole().getName().equalsIgnoreCase("admin")) ? new AdminScreen() : new MainMenuScreen();
+
+            } else {
+                HomePageScreen.this.menuScreen = this.goBack();
+            }
+
             this.goToMenu(HomePageScreen.this.menuScreen);
         }
     }

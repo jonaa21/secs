@@ -1,6 +1,7 @@
 package sr.unasat.jpa.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import sr.unasat.jpa.entity.enums.CategoryName;
 
 import javax.persistence.*;
@@ -20,8 +21,8 @@ public class Computer {
     @Column(nullable = false)
     private Double price;
 
-    @JsonIgnore
-    @ManyToMany(mappedBy = "computers")
+    @JsonManagedReference
+    @ManyToMany(mappedBy = "computers", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     private Set<Receipt> receipts;
 
     @JsonIgnore

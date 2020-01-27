@@ -28,8 +28,9 @@ public class Receipt {
     private LocalDate deliveryDate;
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinTable(name = "order", joinColumns = @JoinColumn(name = "computer_id"),
-        inverseJoinColumns = @JoinColumn(name = "receipt_id"))
+    @JoinTable(name = "receipt_order",
+            joinColumns = {@JoinColumn(name = "computer_id")},
+            inverseJoinColumns = {@JoinColumn(name = "receipt_id")})
     private Set<Computer> computers;
 
     @Enumerated(EnumType.STRING)
@@ -87,6 +88,7 @@ public class Receipt {
 
     public void setComputers(Set<Computer> computers) {
         this.computers = computers;
+//        this.computers.forEach(c -> c.setCustomer(this.customer));
         calculatePrice();
     }
 

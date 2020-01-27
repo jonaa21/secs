@@ -17,14 +17,13 @@ public class CustomerService extends BaseServiceImpl<CustomerDao, Customer> {
     }
 
 
-    public boolean saveCustomer(User user, String userName) {
+    public Customer saveCustomer(User user, String userName) {
         try {
             this.getDao().save(user, userName);
-            return true;
         } catch (EntityExistsException e) {
             System.out.println(e.getMessage());
-            return false;
         }
+        return null;
     }
 
     public Customer findCustomerByUserName(String userName) throws NoResultException {
@@ -35,17 +34,15 @@ public class CustomerService extends BaseServiceImpl<CustomerDao, Customer> {
         return this.getDao().findBy(user);
     }
 
-    public boolean loginUser(String userName) {
+    public void loginUser(String userName) {
         try {
             Customer customer = findCustomerByUserName(userName);
             if (customer != null) {
                 setLoggedInCustomer(customer);
-                return true;
             }
         } catch (NoResultException e) {
             System.out.println(String.format(Message.NOT_FOUND, userName));
         }
-        return false;
     }
 
 }

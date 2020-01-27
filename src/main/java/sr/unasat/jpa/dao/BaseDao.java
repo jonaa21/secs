@@ -15,7 +15,7 @@ public interface BaseDao<E> {
 
     void delete(E e);
 
-    void save(E e) throws EntityExistsException;
+    E save(E e) throws EntityExistsException;
 
     E update(E e);
 

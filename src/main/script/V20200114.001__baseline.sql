@@ -255,11 +255,11 @@ CREATE TABLE IF NOT EXISTS `secs`.`receipt`
 
 
 -- -----------------------------------------------------
--- Table `secs`.`order`
+-- Table `secs`.`receipt_order`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `secs`.`order`;
+DROP TABLE IF EXISTS `secs`.`receipt_order`;
 
-CREATE TABLE IF NOT EXISTS `secs`.`order`
+CREATE TABLE IF NOT EXISTS `secs`.`receipt_order`
 (
     `computer_id` BIGINT(20) NOT NULL,
     `receipt_id`  BIGINT(20) NOT NULL,

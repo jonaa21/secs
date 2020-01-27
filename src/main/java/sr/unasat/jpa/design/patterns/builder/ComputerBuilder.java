@@ -1,10 +1,12 @@
 package sr.unasat.jpa.design.patterns.builder;
 
+import sr.unasat.jpa.controller.AppController;
 import sr.unasat.jpa.entity.Computer;
 import sr.unasat.jpa.entity.ComputerConfig;
 import sr.unasat.jpa.entity.Hardware;
 import sr.unasat.jpa.entity.HardwareStock;
 import sr.unasat.jpa.entity.enums.CategoryName;
+import sr.unasat.jpa.service.impl.HardwareStockService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +16,7 @@ public class ComputerBuilder implements Builder {
     private Double price = 0.00D;
     private Hardware memory, gpu, storage, cpu;
     private boolean bluetooth, thunderbolt, lte, touchScreen, twoInOne;
+    private HardwareStockService stockService = AppController.getAppController().getHardwareStockService();
 
     @Override
     public Double getPrice() {
@@ -133,7 +136,11 @@ public class ComputerBuilder implements Builder {
 
     private boolean validateHardware(Hardware hardware, CategoryName specifiedCategory) {
         if (hardware != null) {
-            if (hardware.getHardwareStock().getCategory().getCategoryName().equals(specifiedCategory)) return true;
+            if (hardware.getHardwareStock().getCategory().getCategoryName().equals(specifiedCategory) &&
+                        stockService.canAddHardware(hardware)) {
+                stockService.getDao().commitTransaction();
+                return true;
+            }
 
             throw new RuntimeException(String.format("Selected hardware [%1$s] does not match for specified category [%2$s]",
                     hardware.getHardwareStock().getName(), specifiedCategory));

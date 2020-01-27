@@ -14,7 +14,7 @@ public class ComputerConfig {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(name = "hardware_config",
             joinColumns = {@JoinColumn(name = "config_id", nullable = false)},
             inverseJoinColumns = {@JoinColumn(name = "hardware_id")})

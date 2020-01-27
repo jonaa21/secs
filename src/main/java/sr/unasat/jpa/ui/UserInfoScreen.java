@@ -80,11 +80,11 @@ public class UserInfoScreen extends MenuScreen {
 
             if (canUpdate) {
                 Customer update = customerService.update(loggedInCustomer);
-                boolean updated = customerService.loginUser(update.getUserName());
+                customerService.loginUser(update.getUserName());
 
-                if (updated) {
+                if (getLoggedInCustomer() != null) {
                     System.out.println(Message.SAVED);
-                    this.goToMainMenu().showMenu();
+                    this.goToMenu(this.goToMainMenu());
                 }
                 System.out.println(Message.INVALID_ENTRY);
                 this.showMenu();

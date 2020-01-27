@@ -3,6 +3,7 @@ package sr.unasat.jpa.service.impl;
 import sr.unasat.jpa.dao.HardwareStockDao;
 import sr.unasat.jpa.dao.impl.HardwareStockDaoImpl;
 import sr.unasat.jpa.entity.Brand;
+import sr.unasat.jpa.entity.Hardware;
 import sr.unasat.jpa.entity.HardwareStock;
 import sr.unasat.jpa.entity.enums.CategoryName;
 import sr.unasat.jpa.entity.enums.SpecStatus;
@@ -34,6 +35,10 @@ public class HardwareStockService extends BaseServiceImpl<HardwareStockDao, Hard
 
     boolean canAddHardware(HardwareStock stock, Integer amount) {
         return this.getDao().canAddHardware(stock, amount);
+    }
+
+    public boolean canAddHardware(Hardware hardware) {
+        return canAddHardware(hardware.getHardwareStock(), hardware.getAmount());
     }
 
     public HardwareStock findRandomHardwareBy(CategoryName categoryName, SpecStatus specStatus) {

@@ -23,8 +23,7 @@ public class UserDaoImpl extends BaseDaoImpl<User> implements UserDao {
 
         Role role = roleDao.findByName("User");
         user.setRole(role);
-        super.save(user);
-        return findByFirstNameAndLastName(user.getFirstName(), user.getLastName());
+        return super.save(user);
     }
 
     @Override

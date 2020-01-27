@@ -76,6 +76,9 @@ public class Message {
         add("Cart");
         add("User info");
     }};
+    static final List<String> ADMIN_SCREEN = new ArrayList<String>() {{
+        add("User Management");
+    }};
 
     static final List<String> BUILD_PC_MENU = new ArrayList<String>() {{
         add("Memory modules");

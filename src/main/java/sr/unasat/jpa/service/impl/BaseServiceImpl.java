@@ -5,6 +5,7 @@ import sr.unasat.jpa.entity.Customer;
 import sr.unasat.jpa.service.BaseService;
 
 import javax.persistence.EntityExistsException;
+import javax.persistence.NoResultException;
 import java.util.Collection;
 import java.util.List;
 
@@ -31,18 +32,27 @@ public class BaseServiceImpl<D extends BaseDao<E>, E> implements BaseService<E> 
     }
 
     @Override
-    public E findById(Long id) {
-        return dao.findById(id);
+    public E findById(Long id) throws NoResultException {
+        try {
+            return dao.findById(id);
+        } catch (NoResultException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override
     public void delete(E e) {
-        dao.delete(e);
+        try {
+            dao.delete(e);
+        } catch (NullPointerException ex) {
+            ex.printStackTrace();
+        }
     }
 
     @Override
-    public void save(E e) throws EntityExistsException {
-        dao.save(e);
+    public E save(E e) throws EntityExistsException {
+        return dao.save(e);
     }
 
     @Override

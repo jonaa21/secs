@@ -76,7 +76,7 @@ public abstract class MenuScreen {
             option++;
         }
 
-        if (menu.containsAll(Message.MAIN_MENU)) {
+        if (menu.containsAll(Message.MAIN_MENU) || menu.containsAll(Message.ADMIN_SCREEN)) {
             System.out.println(Message.LOGOUT);
         } else if (!menu.containsAll(Message.HOME_PAGE)){
             System.out.println(Message.BACK);
