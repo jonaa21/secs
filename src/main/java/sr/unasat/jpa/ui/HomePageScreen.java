@@ -8,12 +8,13 @@ public class HomePageScreen extends MenuScreen {
 
     public HomePageScreen() {
         super(Message.HOME_PAGE);
-        System.out.println(Message.SMALL_LOGO);
-        System.out.println(Message.WELCOME_MSG);
     }
 
     @Override
     public void showMenu() {
+        System.out.println(Message.SMALL_LOGO);
+        System.out.println(Message.WELCOME_MSG);
+
         this.showMenuItems(this.getMenu());
 
         int option = this.getSelection();

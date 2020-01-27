@@ -1,7 +1,10 @@
 package sr.unasat.jpa.ui;
 
 import sr.unasat.jpa.controller.AppController;
+import sr.unasat.jpa.entity.Computer;
 import sr.unasat.jpa.entity.Customer;
+import sr.unasat.jpa.entity.Hardware;
+import sr.unasat.jpa.entity.HardwareStock;
 import sr.unasat.jpa.service.impl.BaseServiceImpl;
 
 import java.lang.reflect.InvocationTargetException;
@@ -11,11 +14,12 @@ import java.util.*;
 public abstract class MenuScreen {
 
     public static final int BACK = 0;
-    private static final String MENU_TEMPLATE = "%1$s. %2$s";
-    private static Map<List<String>, MenuScreen> menuMap = new HashMap();
-    protected static Stack<MenuScreen> menuStack = new Stack<>();
-    private static Scanner scanner = new Scanner(System.in);
     public static final AppController controller = AppController.getAppController();
+    private static final String MENU_TEMPLATE = "%1$s. %2$s";
+    protected static Stack<MenuScreen> menuStack = new Stack<>();
+    protected static List<Computer> cart = new ArrayList<>();
+    private static Map<List<String>, MenuScreen> menuMap = new HashMap();
+    private static Scanner scanner = new Scanner(System.in);
     private List<String> menu;
 
     MenuScreen(List<String> menu) {
@@ -24,6 +28,13 @@ public abstract class MenuScreen {
     }
 
     public abstract void showMenu();
+
+    MenuScreen goToMainMenu() {
+        while (!menuStack.isEmpty() && !menuStack.peek().getMenu().containsAll(Message.MAIN_MENU)) {
+            menuStack.pop();
+        }
+        return menuStack.peek();
+    }
 
     MenuScreen goBack() {
         if (!menuStack.isEmpty() && menuStack.size() > 1) {
@@ -112,14 +123,71 @@ public abstract class MenuScreen {
     }
 
     void goToMenu(MenuScreen menuScreen) {
-        if (menuScreen != null) menuScreen.showMenu();
-        else {
+        if (menuScreen != null) {
+            menuScreen.showMenu();
+        } else {
             System.out.println(Message.INVALID_ENTRY);
             this.goBack().showMenu();
-        };
+        }
     }
 
     public Customer getLoggedInCustomer() {
         return BaseServiceImpl.getLoggedInCustomer();
+    }
+
+    protected void addToCart(Computer computer) {
+        cart.add(computer);
+    }
+
+    protected void viewHardwareSpecs(List<Hardware> hardwareList) {
+        String category, name, brand, unit;
+        Integer amount;
+        Double size;
+
+        if (hardwareList.isEmpty()) {
+            return;
+        }
+
+        for (Hardware hardware : hardwareList) {
+            HardwareStock hardwareStock = hardware.getHardwareStock();
+            category = hardwareStock.getCategory().getCategoryName().getCategory();
+            name = hardwareStock.getName();
+            brand = hardwareStock.getBrand().getName();
+            amount = hardware.getAmount();
+            unit = hardwareStock.getUnit();
+            size = hardwareStock.getSize();
+
+            String format = String.format("\nName: %1$s\nSize: %2$s %3$s\nAmount: %4$s\nBrand: %5$s\nCategory: %6$s\n",
+                    name, size, unit, amount, brand, category);
+            System.out.print(format);
+        }
+    }
+
+    protected MenuScreen addToCartMenu(Computer computer) {
+        MenuScreen menuScreen = null;
+        System.out.println("\n1. " + Message.ADD_TO_CART);
+        System.out.println(Message.BACK);
+        System.out.print(Message.ENTER_NUMBER);
+
+        int option = getSelection();
+
+        switch (option) {
+            case 1:
+                addToCart(computer);
+                System.out.println(Message.ADD_TO_CART_SUCCESS);
+                menuScreen = goToMainMenu();
+                break;
+            case BACK:
+            default:
+                menuScreen = this;
+                break;
+        }
+        return menuScreen;
+    }
+
+    protected void hasExtraFeature(String featureName, boolean featureValue) {
+        if (featureValue) {
+            System.out.println(featureName + ": Yes");
+        }
     }
 }

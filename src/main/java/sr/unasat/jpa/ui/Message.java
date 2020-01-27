@@ -28,9 +28,18 @@ public class Message {
     static final String WELCOME_MENU_MSG = "\n****Welcome to the %s menu****\n";
     static final String ENTER_NUMBER = "\nPlease enter a number to continue: ";
     public static final String NOT_FOUND = "[%s] not found.\nPlease try again.\n";
+    public static final String NO_RESULT_FOUND = "Could not find result.\nPlease try again.\n";
     public static final String UNEXPECTED_ERROR = "\nAn unexpected error occurred\n";
     static final String ADDED_TO_CONFIG = "\nAdded to configuration!\n";
     static final String CONFIG_BUILD_SUCCESS = "\nSuccessfully build the configuration!\n";
+    static final String ADD_TO_CART = "Add to cart";
+    static final String ADD_TO_CART_SUCCESS = "\nSuccessfully added to cart\n";
+    static final String BLUETOOTH = "Bluetooth";
+    static final String THUNDERBOLT = "Thunderbolt";
+    static final String LTE = "LTE";
+    static final String TWO_IN_ONE = "Two In One";
+    static final String TOUCH_SCREEN = "Touch Screen";
+    static final String EXTRA_FEATURES = "\nExtra features";
 
 
     static final List<String> HOME_PAGE = new ArrayList<String>() {{
@@ -75,7 +84,7 @@ public class Message {
         add("Graphics");
         add("Extra features");
         add("Build the configuration");
-        add("Add to cart");
+        add(ADD_TO_CART);
     }};
 
     static final List<String> PREDEFINED_BUILD_MENU = new ArrayList<String>() {{
@@ -96,6 +105,10 @@ public class Message {
 
     static final List<String> IN_MENU_OPTIONS = new ArrayList<String>() {{
        add(EDIT);
+    }};
+
+    static final List<String> ADD_TO_CART_PROMPT_SCREEN = new ArrayList<String>() {{
+        add(ADD_TO_CART);
     }};
 
 

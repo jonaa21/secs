@@ -42,6 +42,9 @@ public class HardwareStock {
     @JoinColumn(name = "spec_level_id")
     private SpecLevel specLevel;
 
+    @Column(name = "unit", nullable = false)
+    private String unit;
+
     public HardwareStock() {
     }
 
@@ -109,6 +112,14 @@ public class HardwareStock {
         this.specLevel = specLevel;
     }
 
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
     @Override
     public boolean equals(Object object) {
         if (this == object) return true;
@@ -127,12 +138,10 @@ public class HardwareStock {
     @Override
     public String toString() {
         return "HardwareStock{" +
-                       "id=" + id +
-                       ", name='" + name + '\'' +
-                       ", size=" + size +
-                       ", quantity=" + quantity +
-                       ", price=" + price +
-                       ", brand=" + brand +
-                       '}';
+                       "\nname='" + name + '\'' +
+                       "\nsize=" + size +
+                       "\nprice=" + price +
+                       "\nbrand=" + brand +
+                       "}\n";
     }
 }

@@ -48,8 +48,8 @@ public class BuildPcScreen extends MenuScreen {
                 System.out.println(Message.CONFIG_BUILD_SUCCESS);
                 break;
             case 7:
-                addToCart();
-                menuScreen = this.goBack();
+                this.addToCart(new Computer(config));
+                menuScreen = this.goToMainMenu();
                 break;
             case BACK:
                 menuScreen = goBack();
@@ -82,16 +82,16 @@ public class BuildPcScreen extends MenuScreen {
         boolean bluetooth = this.getBoolean();
 
         System.out.print("Add LTE: ");
-        boolean lte = getBoolean();
+        boolean lte = this.getBoolean();
 
         System.out.print("Add Thunderbolt: ");
-        boolean thunderbolt = getBoolean();
+        boolean thunderbolt = this.getBoolean();
 
         System.out.print("Add Touch Screen: ");
-        boolean touchScreen = getBoolean();
+        boolean touchScreen = this.getBoolean();
 
         System.out.print("Add Two In One: ");
-        boolean twoInOne = getBoolean();
+        boolean twoInOne = this.getBoolean();
 
         builder.withBluetooth(bluetooth)
                 .withLte(lte)
@@ -178,7 +178,7 @@ public class BuildPcScreen extends MenuScreen {
 
                 BuildPcScreen.this.buildComputer(hardwareStock, this.categoryName);
             } else {
-                System.out.println(String.format(Message.NOT_FOUND, "Results"));
+                System.out.println(Message.NO_RESULT_FOUND);
                 MenuScreen.menuStack.pop();
                 this.goToMenu(InnerMenuScreen.this);
             }

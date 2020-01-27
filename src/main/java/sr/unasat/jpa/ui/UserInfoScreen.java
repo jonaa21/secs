@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class UserInfoScreen extends MenuScreen {
 
-    private CustomerService customerService = this.controller.getCustomerService();
+    private CustomerService customerService = controller.getCustomerService();
     private MenuScreen menuScreen = null;
 
     UserInfoScreen() {
@@ -25,7 +25,7 @@ public class UserInfoScreen extends MenuScreen {
             case 1:
                 menuScreen = new EditInfoScreen();
                 break;
-            case 0:
+            case BACK:
                 menuScreen = this.goBack();
                 break;
             default:
@@ -84,11 +84,11 @@ public class UserInfoScreen extends MenuScreen {
 
                 if (updated) {
                     System.out.println(Message.SAVED);
-                    this.goBack().showMenu();
+                    this.goToMainMenu().showMenu();
                 }
                 System.out.println(Message.INVALID_ENTRY);
+                this.showMenu();
             }
-            this.showMenu();
         }
     }
 }

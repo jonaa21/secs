@@ -59,9 +59,8 @@ public class Hardware {
     @Override
     public String toString() {
         return "Hardware{" +
-                       "id=" + id +
-                       ", hardwareStock=" + hardwareStock +
-                       ", amount=" + amount +
-                       '}';
+                       "\nhardwareStock=" + hardwareStock.toString() +
+                       "\namount=" + amount +
+                       "}\n";
     }
 }

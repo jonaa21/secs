@@ -98,4 +98,13 @@ public class Computer {
         this.computerConfig.getHardwareList()
                 .forEach(hardware -> this.price += hardware.getHardwareStock().getPrice() * hardware.getAmount());
     }
+
+    @Override
+    public String toString() {
+        return "Computer{" +
+                       "storageType='" + storageType +
+                       "\nprice=" + price +
+                       "\ncomputerConfig=" + computerConfig.toString() +
+                       '}';
+    }
 }

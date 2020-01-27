@@ -139,15 +139,22 @@ public class ComputerConfig {
     @Override
     public String toString() {
         return "ComputerConfig{" +
-                       "id=" + id +
-                       ", hardwareList=" + hardwareList +
-                       ", computer=" + computer +
-                       ", bluetooth=" + bluetooth +
-                       ", thunderbolt=" + thunderbolt +
-                       ", lte=" + lte +
-                       ", touchScreen=" + touchScreen +
-                       ", twoInOne=" + twoInOne +
-                       ", subTotal=" + subTotal +
+                       "\nhardwareList=" + hardwareListToString() +
+                       "\nbluetooth=" + bluetooth +
+                       "\nthunderbolt=" + thunderbolt +
+                       "\nlte=" + lte +
+                       "\ntouchScreen=" + touchScreen +
+                       "\ntwoInOne=" + twoInOne +
+                       "\nsubTotal=" + subTotal +
                        '}';
+    }
+
+    private String hardwareListToString() {
+        StringBuilder builder = new StringBuilder();
+
+        for (Hardware hardware : hardwareList) {
+            builder.append(hardware.toString());
+        }
+        return builder.toString();
     }
 }
