@@ -5,34 +5,38 @@ import sr.unasat.jpa.dao.impl.HardwareStockDaoImpl;
 import sr.unasat.jpa.entity.Brand;
 import sr.unasat.jpa.entity.HardwareStock;
 import sr.unasat.jpa.entity.enums.CategoryName;
+import sr.unasat.jpa.entity.enums.SpecStatus;
 
 import javax.persistence.EntityManager;
 import java.util.List;
 
 public class HardwareStockService extends BaseServiceImpl<HardwareStockDao, HardwareStock> {
 
-    private HardwareStockDao stockDao;
-
     public HardwareStockService(EntityManager entityManager) {
         super(new HardwareStockDaoImpl(entityManager));
-
-        stockDao = this.getDao();
     }
 
     public List<HardwareStock> findAllStockByCategory(CategoryName categoryName) {
-        return stockDao.findAllStockByCategory(categoryName);
+        return this.getDao().findAllStockByCategory(categoryName);
     }
 
     public List<HardwareStock> findAllStockByBrand(Brand brand) {
-        return stockDao.findAllStockByBrand(brand);
+        return this.getDao().findAllStockByBrand(brand);
     }
 
     public List<HardwareStock> findAllStockBetween(Double leftOperand, Double rightOperand) {
-        return stockDao.findAllStockBetween(leftOperand, rightOperand);
+        return this.getDao().findAllStockBetween(leftOperand, rightOperand);
     }
 
     public List<HardwareStock> findAllStockByCategoryAndBrandId(CategoryName categoryName, Long brandId) {
-        return stockDao.findAllStockByCategoryAndBrand_Id(categoryName, brandId);
+        return this.getDao().findAllStockByCategoryAndBrand_Id(categoryName, brandId);
     }
 
+    boolean canAddHardware(HardwareStock stock, Integer amount) {
+        return this.getDao().canAddHardware(stock, amount);
+    }
+
+    public HardwareStock findRandomHardwareBy(CategoryName categoryName, SpecStatus specStatus) {
+        return this.getDao().findStockByCategoryNameAndSizeAndSpecStatus(categoryName, specStatus);
+    }
 }

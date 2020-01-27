@@ -36,7 +36,7 @@ public class UserDaoImpl extends BaseDaoImpl<User> implements UserDao {
         this.setParameters("lastName", lastName);
         TypedQuery<User> query = this.createQuery(jpql, "firstName", "lastName");
         User result = query.getSingleResult();
-        this.commitQuery();
+        this.commitTransaction();
         return result;
     }
 }

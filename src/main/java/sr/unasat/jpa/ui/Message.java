@@ -9,9 +9,9 @@ public class Message {
     static final String WELCOME_MSG = "Welcome to 'Set Eng Computer Sales', 'SECS' for short, %1$s %2$s [%3$s].\n" +
                                               "\nHere you can build your own personal computer " +
                                               "without even knowing what a computer is.\n";
-    static final String GOOD_BYE = "Thank you for visiting.\nGoodbye!";
+    static final String GOOD_BYE = "\nThank you for visiting.\nGoodbye!";
 
-    static final String YES_NO_OPTION = "Press '1' for 'Yes' and '0' for 'No'.";
+    static final String YES_NO_OPTION = "\nPress '1' for 'Yes' and '0' for 'No'.";
     static final String AMOUNT = "Enter amount: ";
     static final String EXIT = "Exit";
     static final String LOGOUT = "0. Log out";
@@ -28,7 +28,9 @@ public class Message {
     static final String WELCOME_MENU_MSG = "\n****Welcome to the %s menu****\n";
     static final String ENTER_NUMBER = "\nPlease enter a number to continue: ";
     public static final String NOT_FOUND = "[%s] not found.\nPlease try again.\n";
-    public static final String UNEXPECTED_ERROR = "An unexpected error occurred";
+    public static final String UNEXPECTED_ERROR = "\nAn unexpected error occurred\n";
+    static final String ADDED_TO_CONFIG = "\nAdded to configuration!\n";
+    static final String CONFIG_BUILD_SUCCESS = "\nSuccessfully build the configuration!\n";
 
 
     static final List<String> HOME_PAGE = new ArrayList<String>() {{
@@ -73,6 +75,7 @@ public class Message {
         add("Graphics");
         add("Extra features");
         add("Build the configuration");
+        add("Add to cart");
     }};
 
     static final List<String> PREDEFINED_BUILD_MENU = new ArrayList<String>() {{

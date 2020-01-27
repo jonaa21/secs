@@ -147,24 +147,29 @@ DROP TABLE IF EXISTS `secs`.`hardware_stock`;
 
 CREATE TABLE IF NOT EXISTS `secs`.`hardware_stock`
 (
-    `id`          BIGINT(20)    NOT NULL AUTO_INCREMENT,
-    `name`        VARCHAR(45)   NOT NULL,
-    `size`        DOUBLE(10, 2) NOT NULL DEFAULT '0.00',
-    `quantity`    INT(11)       NOT NULL DEFAULT '0',
-    `price`       DOUBLE(10, 2) NOT NULL DEFAULT '0.00',
-    `unit`       VARCHAR(45)    NULL,
-    `brand_id`    BIGINT(20)    NOT NULL,
-    `category_id` BIGINT(20)    NOT NULL,
+    `id`            BIGINT(20)    NOT NULL AUTO_INCREMENT,
+    `name`          VARCHAR(45)   NOT NULL,
+    `size`          DOUBLE(10, 2) NOT NULL DEFAULT '0.00',
+    `quantity`      INT(11)       NOT NULL DEFAULT '0',
+    `price`         DOUBLE(10, 2) NOT NULL DEFAULT '0.00',
+    `unit`          VARCHAR(45)   NULL     DEFAULT NULL,
+    `spec_level_id` BIGINT(20)    NOT NULL,
+    `brand_id`      BIGINT(20)    NOT NULL,
+    `category_id`   BIGINT(20)    NOT NULL,
     PRIMARY KEY (`id`),
     INDEX `FK_hardware_stock_ref_brand_idx` (`brand_id` ASC) VISIBLE,
     INDEX `FK_hardware_stock_ref_category_idx` (`brand_id` ASC) VISIBLE,
     INDEX `FK_hardware_stock_ref_category` (`category_id` ASC) VISIBLE,
+    INDEX `FK_hardware_stock_ref_spec_level_idx` (`spec_level_id` ASC) VISIBLE,
     CONSTRAINT `FK_hardware_stock_ref_brand`
         FOREIGN KEY (`brand_id`)
             REFERENCES `secs`.`brand` (`id`),
     CONSTRAINT `FK_hardware_stock_ref_category`
         FOREIGN KEY (`category_id`)
-            REFERENCES `secs`.`category` (`id`)
+            REFERENCES `secs`.`category` (`id`),
+    CONSTRAINT `FK_hardware_stock_ref_spec_level`
+        FOREIGN KEY (`spec_level_id`)
+            REFERENCES `secs`.`spec_level` (`id`)
 )
     ENGINE = InnoDB;
 
@@ -235,6 +240,7 @@ CREATE TABLE IF NOT EXISTS `secs`.`receipt`
     `customer_id`     BIGINT(20)    NOT NULL,
     `total_price`     DOUBLE(10, 2) NOT NULL DEFAULT '0.00',
     `delivery_date`   DATE          NOT NULL,
+    `receipt_status`  VARCHAR(45)   NOT NULL DEFAULT 'NEW',
     PRIMARY KEY (`id`),
     INDEX `FK_receipt_ref_customer_idx` (`customer_id` ASC) VISIBLE,
     INDEX `FK_receipt_ref_payment_type_id_idx` (`payment_type_id` ASC) VISIBLE,
@@ -289,6 +295,21 @@ CREATE TABLE IF NOT EXISTS `flyway_schema_history`
     KEY `flyway_schema_history_s_idx` (`success`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `secs`.`spec_level`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `secs`.`spec_level`;
+
+CREATE TABLE IF NOT EXISTS `secs`.`spec_level`
+(
+    `id`          BIGINT(20)  NOT NULL AUTO_INCREMENT,
+    `spec_status` VARCHAR(45) NOT NULL,
+    PRIMARY KEY (`id`),
+    UNIQUE INDEX `spec_status_UNIQUE` (`spec_status` ASC) VISIBLE
+)
+    ENGINE = InnoDB;
 
 
 SET SQL_MODE = @OLD_SQL_MODE;

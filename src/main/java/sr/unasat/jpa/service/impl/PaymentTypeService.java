@@ -15,8 +15,6 @@ public class PaymentTypeService extends BaseServiceImpl<PaymentTypeDao, PaymentT
 
     public PaymentTypeService(EntityManager entityManager) {
         super(new PaymentTypeDaoImpl(entityManager));
-
-        paymentTypeDao = this.getDao();
     }
 
     public PaymentStrategy getPaymentStrategy(Long id, User user, String cardNumber, LocalDate expirationDate) {

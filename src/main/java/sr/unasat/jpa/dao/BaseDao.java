@@ -33,5 +33,9 @@ public interface BaseDao<E> {
 
     List<E> findAllBy(Object object) throws NullPointerException;
 
-    void commitQuery();
+    void commitTransaction();
+
+    void rollBackTransaction();
+
+//    Long getRandomObjectId(List<E> resultList, Function<E, Long> mappedFunction);
 }

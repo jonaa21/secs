@@ -1,6 +1,7 @@
 package sr.unasat.jpa.entity;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import sr.unasat.jpa.entity.enums.CategoryName;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -19,16 +20,21 @@ public class Computer {
     @Column(nullable = false)
     private Double price;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "computers")
     private Set<Receipt> receipts;
 
-    @JsonManagedReference
+    @JsonIgnore
     @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "config_id")
     private ComputerConfig computerConfig;
 
     public Computer() {
 
+    }
+
+    public Computer(ComputerConfig config) {
+        this.setComputerConfig(config);
     }
 
     public Long getId() {
@@ -69,6 +75,17 @@ public class Computer {
 
     public void setComputerConfig(ComputerConfig config) {
         this.computerConfig = config;
+
+        if (this.storageType == null) {
+            config.getHardwareList()
+                    .stream()
+                    .map(Hardware::getHardwareStock)
+                    .filter(stock -> stock.getCategory().getCategoryName().equals(CategoryName.STORAGE) &&
+                                             (stock.getName().equalsIgnoreCase("SSD") || stock.getName().equalsIgnoreCase("HDD")))
+                    .findFirst()
+                    .ifPresent(stock -> this.setStorageType(stock.getName()));
+        }
+
         calculatePrice();
     }
 

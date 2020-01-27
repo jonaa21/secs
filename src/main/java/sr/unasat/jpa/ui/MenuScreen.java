@@ -15,7 +15,7 @@ public abstract class MenuScreen {
     private static Map<List<String>, MenuScreen> menuMap = new HashMap();
     protected static Stack<MenuScreen> menuStack = new Stack<>();
     private static Scanner scanner = new Scanner(System.in);
-    public static final AppController controller = new AppController();
+    public static final AppController controller = AppController.getAppController();
     private List<String> menu;
 
     MenuScreen(List<String> menu) {

@@ -7,6 +7,10 @@ import java.util.Objects;
 
 @Table(name = "hardware_stock")
 @Entity
+@NamedStoredProcedureQuery(name = "p_update_hardware_stock", procedureName = "p_update_hardware_stock", parameters = {
+        @StoredProcedureParameter(name = "hardware_stock_id", type = Long.class, mode = ParameterMode.IN),
+        @StoredProcedureParameter(name = "hardware_amount", type = Integer.class, mode = ParameterMode.IN)
+})
 public class HardwareStock {
 
     @Id
@@ -33,6 +37,10 @@ public class HardwareStock {
     @OneToOne
     @JoinColumn(name = "category_id")
     private Category category;
+
+    @ManyToOne
+    @JoinColumn(name = "spec_level_id")
+    private SpecLevel specLevel;
 
     public HardwareStock() {
     }
@@ -91,6 +99,14 @@ public class HardwareStock {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public SpecLevel getSpecLevel() {
+        return specLevel;
+    }
+
+    public void setSpecLevel(SpecLevel specLevel) {
+        this.specLevel = specLevel;
     }
 
     @Override

@@ -10,15 +10,12 @@ import java.util.List;
 
 public class BrandService extends BaseServiceImpl<BrandDao, Brand> {
 
-    private BrandDao brandDao;
-
     public BrandService(EntityManager entityManager) {
         super(new BrandDaoImpl(entityManager));
-        brandDao = this.getDao();
     }
 
 
     public List<Brand> findBrandsByCategoryName(CategoryName categoryName) {
-        return brandDao.findAllBrandsByCategory_Name(categoryName);
+        return this.getDao().findAllBrandsByCategory_Name(categoryName);
     }
 }

@@ -44,11 +44,13 @@ public class BuildPcScreen extends MenuScreen {
                 break;
             case 6:
                 config = this.builder.build();
-                menuScreen = this.goBack();
-                //TODO FINISH THIS
+                menuScreen = this;
+                System.out.println(Message.CONFIG_BUILD_SUCCESS);
                 break;
             case 7:
                 addToCart();
+                menuScreen = this.goBack();
+                break;
             case BACK:
                 menuScreen = goBack();
                 break;
@@ -67,7 +69,9 @@ public class BuildPcScreen extends MenuScreen {
         if (config != null) {
             Computer computer = new Computer();
             computer.setComputerConfig(this.config);
-
+            controller.getComputerService().save(computer);
+        } else {
+            System.out.println("\nPlease build the configuration first.\n");
         }
     }
 
@@ -118,9 +122,10 @@ public class BuildPcScreen extends MenuScreen {
                     BuildPcScreen.this.builder.setStorage(hardware);
                     break;
             }
-            System.out.println("\nAdded to configuration!\n");
+
+            System.out.println(Message.ADDED_TO_CONFIG);
             MenuScreen.menuStack.pop();
-            this.goToMenu(MenuScreen.menuStack.peek());
+            this.goToMenu(this);
         } catch (RuntimeException e) {
             System.out.println(e.getMessage());
             this.goBack().showMenu();

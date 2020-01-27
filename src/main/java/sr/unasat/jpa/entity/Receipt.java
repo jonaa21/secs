@@ -1,5 +1,7 @@
 package sr.unasat.jpa.entity;
 
+import sr.unasat.jpa.entity.enums.ReceiptStatus;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Set;
@@ -30,7 +32,13 @@ public class Receipt {
         inverseJoinColumns = @JoinColumn(name = "receipt_id"))
     private Set<Computer> computers;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "receipt_status", nullable = false)
+    private ReceiptStatus receiptStatus;
+
     public Receipt() {
+        this.receiptStatus = ReceiptStatus.NEW;
+        this.deliveryDate = LocalDate.now().plusDays(14L);
     }
 
     public Long getId() {
@@ -80,6 +88,14 @@ public class Receipt {
     public void setComputers(Set<Computer> computers) {
         this.computers = computers;
         calculatePrice();
+    }
+
+    public ReceiptStatus getReceiptStatus() {
+        return receiptStatus;
+    }
+
+    public void setReceiptStatus(ReceiptStatus receiptStatus) {
+        this.receiptStatus = receiptStatus;
     }
 
     private void calculatePrice() {

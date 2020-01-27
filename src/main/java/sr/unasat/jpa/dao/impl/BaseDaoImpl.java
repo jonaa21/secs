@@ -2,15 +2,15 @@ package sr.unasat.jpa.dao.impl;
 
 import org.jetbrains.annotations.NotNull;
 import sr.unasat.jpa.dao.BaseDao;
+import sr.unasat.jpa.dao.impl.procedures.MySqlProcedures;
 
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * @param <E> entity
@@ -28,10 +28,15 @@ public class BaseDaoImpl<E> implements BaseDao<E> {
     private String findByIdQuery;
     private String findByNameQuery;
     private Map<String, Object> parameterMap = new HashMap<>();
+    private MySqlProcedures mySqlProcedures;
+
+    private Random random;
 
     public BaseDaoImpl(EntityManager entityManager, Class<E> parameterizedType) {
         this.entityManager = entityManager;
         this.parameterizedType = parameterizedType;
+        this.mySqlProcedures = new MySqlProcedures(entityManager);
+        random = new Random();
 
         findAllQuery = String.format(DEFAULT_FIND_ALL_QUERY, parameterizedType.getCanonicalName());
         findByIdQuery = String.format(DEFAULT_FIND_BY_ID, parameterizedType.getCanonicalName());
@@ -58,8 +63,8 @@ public class BaseDaoImpl<E> implements BaseDao<E> {
         EntityTransaction transaction = getTransaction();
 
         if (transaction.isActive()) {
-            //Roll back transaction
-            transaction.rollback();
+            //Commit active transaction
+            transaction.commit();
         }
 
         transaction.begin();
@@ -223,8 +228,13 @@ public class BaseDaoImpl<E> implements BaseDao<E> {
     }
 
     @Override
-    public void commitQuery() {
+    public void commitTransaction() {
         this.getTransaction().commit();
+    }
+
+    @Override
+    public void rollBackTransaction() {
+        this.getTransaction().rollback();
     }
 
     private TypedQuery<E> getTypedQuery(Object object, String fieldName) throws NullPointerException {
@@ -270,4 +280,16 @@ public class BaseDaoImpl<E> implements BaseDao<E> {
         this.parameterMap.put(parameterName, value);
     }
 
+    public MySqlProcedures getMySqlProcedures() {
+        return mySqlProcedures;
+    }
+
+
+    protected Long getRandomObjectId(List<E> resultList, Function<E, Long> mappedFunction) {
+        List<Long> collectedIds = resultList.stream()
+                                          .map(mappedFunction)
+                                          .collect(Collectors.toList());
+
+        return collectedIds.get(this.random.nextInt(collectedIds.size()));
+    }
 }

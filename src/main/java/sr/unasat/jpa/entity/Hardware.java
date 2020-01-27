@@ -11,7 +11,7 @@ public class Hardware {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToOne
     @JoinColumn(name = "stock_id")
     private HardwareStock hardwareStock;
 

@@ -12,17 +12,14 @@ import javax.persistence.NoResultException;
 
 public class CustomerService extends BaseServiceImpl<CustomerDao, Customer> {
 
-    private CustomerDao customerDao;
-
     public CustomerService(EntityManager entityManager) {
         super(new CustomerDaoImpl(entityManager));
-        customerDao = this.getDao();
     }
 
 
     public boolean saveCustomer(User user, String userName) {
         try {
-            customerDao.save(user, userName);
+            this.getDao().save(user, userName);
             return true;
         } catch (EntityExistsException e) {
             System.out.println(e.getMessage());
@@ -31,11 +28,11 @@ public class CustomerService extends BaseServiceImpl<CustomerDao, Customer> {
     }
 
     public Customer findCustomerByUserName(String userName) throws NoResultException {
-        return customerDao.findCustomerByUserName(userName);
+        return this.getDao().findCustomerByUserName(userName);
     }
 
     public Customer findByUser(User user) {
-        return customerDao.findBy(user);
+        return this.getDao().findBy(user);
     }
 
     public boolean loginUser(String userName) {

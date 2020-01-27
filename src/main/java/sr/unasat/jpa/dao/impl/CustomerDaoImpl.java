@@ -33,7 +33,7 @@ public class CustomerDaoImpl extends BaseDaoImpl<Customer> implements CustomerDa
         this.setParameters("userName", userName);
         TypedQuery<Customer> query = this.createQuery(jpql, "userName");
         Customer result = query.getSingleResult();
-        this.commitQuery();
+        this.commitTransaction();
         return result;
     }
 }
