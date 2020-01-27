@@ -3,6 +3,7 @@ package sr.unasat.jpa.design.patterns.builder;
 import sr.unasat.jpa.entity.Computer;
 import sr.unasat.jpa.entity.ComputerConfig;
 import sr.unasat.jpa.entity.Hardware;
+import sr.unasat.jpa.entity.HardwareStock;
 import sr.unasat.jpa.entity.enums.CategoryName;
 
 import java.util.ArrayList;
@@ -41,6 +42,26 @@ public class ComputerBuilder implements Builder {
     public ComputerBuilder setCpu(Hardware cpu) {
         if (validateHardware(cpu, CategoryName.CPU)) this.cpu = cpu;
         return this;
+    }
+
+    @Override
+    public ComputerBuilder setMemory(HardwareStock memory, int amount) {
+        return setMemory(new Hardware(memory, amount));
+    }
+
+    @Override
+    public ComputerBuilder setGpu(HardwareStock gpu, int amount) {
+        return setGpu(new Hardware(gpu, amount));
+    }
+
+    @Override
+    public ComputerBuilder setStorage(HardwareStock storage, int amount) {
+        return setStorage(new Hardware(storage, amount));
+    }
+
+    @Override
+    public ComputerBuilder setCpu(HardwareStock cpu, int amount) {
+        return setCpu(new Hardware(cpu, amount));
     }
 
     @Override

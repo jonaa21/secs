@@ -3,6 +3,7 @@ package sr.unasat.jpa.design.patterns.builder;
 import sr.unasat.jpa.entity.Computer;
 import sr.unasat.jpa.entity.ComputerConfig;
 import sr.unasat.jpa.entity.Hardware;
+import sr.unasat.jpa.entity.HardwareStock;
 
 public interface Builder {
 
@@ -15,6 +16,14 @@ public interface Builder {
     ComputerBuilder setStorage(Hardware storage);
 
     ComputerBuilder setCpu(Hardware cpu);
+
+    ComputerBuilder setMemory(HardwareStock memory, int amount);
+
+    ComputerBuilder setGpu(HardwareStock gpu, int amount);
+
+    ComputerBuilder setStorage(HardwareStock storage, int amount);
+
+    ComputerBuilder setCpu(HardwareStock cpu, int amount);
 
     ComputerBuilder withBluetooth(boolean bluetooth);
 

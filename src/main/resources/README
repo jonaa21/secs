@@ -2,25 +2,31 @@
 
 Create decorator pattern (Types of Computer Builds)
 Payment must be done in receipt service
-Create UI
+Create UI (PENDING)
 Reference data for hardware stock (DONE)
-Add unit to stock table
+Add unit to stock table (DONE)
 
 -----------------------
 -------IMPORTANT-------
 -----------------------
 
 * Reports:
-Most sold hardware
+Most sold hardware per year per quarter
 Most sold hardware by brand between in period
 Payment methods
 Annual ales per product
 
 * Registration:
-Register user information
+Register user information (DONE)
 Register products
 
 * Search:
-Hardware based on category
-Hardware based on brand
+Hardware based on category (DONE)
+Hardware based on brand (DONE)
 Hardware based on price
+
+* CRUD:
+Create: create users (DONE)
+Read: View all data (DONE)
+Update: update users (DONE)
+Delete: ??

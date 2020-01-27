@@ -19,7 +19,9 @@ public class AppController {
     private RoleService roleService;
     private UserService userService;
 
-    public AppController() {
+    private static AppController appController;
+
+    private AppController() {
         final EntityManager entityManager = JPAConfiguration.getEntityManager();
 
         //Initialize services
@@ -34,6 +36,12 @@ public class AppController {
         receiptService = new ReceiptService(entityManager);
         roleService = new RoleService(entityManager);
         userService = new UserService(entityManager);
+    }
+
+    public static AppController getAppController() {
+        if (appController == null) appController = new AppController();
+
+        return appController;
     }
 
     public BrandService getBrandService() {
