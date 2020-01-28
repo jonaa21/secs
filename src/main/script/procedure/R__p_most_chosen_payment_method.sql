@@ -1,6 +1,10 @@
+USE `secs`;
+
 DROP procedure IF EXISTS `p_most_chosen_payment_method`;
 
-CREATE PROCEDURE `p_most_chosen_payment_method`()
+DELIMITER $$
+CREATE
+    DEFINER = `secs`@`localhost` PROCEDURE `p_most_chosen_payment_method`()
 BEGIN
     SET @row_number = 0;
 

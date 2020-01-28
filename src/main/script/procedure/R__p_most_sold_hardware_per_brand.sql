@@ -1,8 +1,8 @@
 DROP procedure IF EXISTS `p_most_sold_hardware_per_brand`;
 
 DELIMITER $$
-USE `secs`$$
-CREATE PROCEDURE `p_most_sold_hardware_per_brand`()
+CREATE
+    DEFINER = `secs`@`localhost` PROCEDURE `p_most_sold_hardware_per_brand`()
 BEGIN
     SET @row_number = 0;
 
