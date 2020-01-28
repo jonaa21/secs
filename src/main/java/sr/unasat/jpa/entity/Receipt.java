@@ -3,6 +3,7 @@ package sr.unasat.jpa.entity;
 import sr.unasat.jpa.entity.enums.ReceiptStatus;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.Set;
 
@@ -28,14 +29,14 @@ public class Receipt {
     private LocalDate deliveryDate;
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinTable(name = "receipt_order",
-            joinColumns = {@JoinColumn(name = "computer_id")},
-            inverseJoinColumns = {@JoinColumn(name = "receipt_id")})
     private Set<Computer> computers;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "receipt_status", nullable = false)
     private ReceiptStatus receiptStatus;
+
+    @Column(name = "date_created", nullable = false, insertable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    private Timestamp dateCreated;
 
     public Receipt() {
         this.receiptStatus = ReceiptStatus.NEW;
@@ -98,6 +99,14 @@ public class Receipt {
 
     public void setReceiptStatus(ReceiptStatus receiptStatus) {
         this.receiptStatus = receiptStatus;
+    }
+
+    public Timestamp getDateCreated() {
+        return dateCreated;
+    }
+
+    public void setDateCreated(Timestamp dateCreated) {
+        this.dateCreated = dateCreated;
     }
 
     private void calculatePrice() {

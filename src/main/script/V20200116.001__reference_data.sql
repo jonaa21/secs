@@ -393,7 +393,7 @@ VALUES (1, 'CREDIT_CARD');
 INSERT INTO `payment_type` (`id`, `name`)
 VALUES (2, 'DEBIT_CARD');
 INSERT INTO `payment_type` (`id`, `name`)
-VALUES (3, 'PAYPAL');
+VALUES (3, 'PAY_PAL');
 INSERT INTO `payment_type` (`id`, `name`)
 VALUES (4, 'MOPE');
 INSERT INTO `payment_type` (`id`, `name`)

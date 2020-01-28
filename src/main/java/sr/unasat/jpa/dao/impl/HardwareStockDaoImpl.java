@@ -61,7 +61,6 @@ public class HardwareStockDaoImpl extends BaseDaoImpl<HardwareStock> implements 
 
     @Override
     public boolean canAddHardware(HardwareStock stock, Integer amount) {
-        this.beginTransaction();
         return getMySqlProcedures().getUPDATE_HARDWARE_STOCK_PROCEDURE(stock.getId(), amount).executeUpdate() != -1;
     }
 

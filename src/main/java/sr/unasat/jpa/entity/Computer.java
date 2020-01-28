@@ -1,7 +1,6 @@
 package sr.unasat.jpa.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import sr.unasat.jpa.entity.enums.CategoryName;
 
 import javax.persistence.*;
@@ -21,8 +20,10 @@ public class Computer {
     @Column(nullable = false)
     private Double price;
 
-    @JsonManagedReference
-    @ManyToMany(mappedBy = "computers", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @JoinTable(name = "receipt_computer",
+            joinColumns = @JoinColumn(name = "receipt_id", referencedColumnName = "id", columnDefinition = "BIGINT(20)"),
+            inverseJoinColumns = @JoinColumn(name = "computers_id", referencedColumnName = "id", columnDefinition = "BIGINT(20)"))
     private Set<Receipt> receipts;
 
     @JsonIgnore

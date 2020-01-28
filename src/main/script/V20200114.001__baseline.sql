@@ -255,20 +255,20 @@ CREATE TABLE IF NOT EXISTS `secs`.`receipt`
 
 
 -- -----------------------------------------------------
--- Table `secs`.`receipt_order`
+-- Table `secs`.`receipt_computer`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `secs`.`receipt_order`;
+DROP TABLE IF EXISTS `secs`.`receipt_computer`;
 
-CREATE TABLE IF NOT EXISTS `secs`.`receipt_order`
+CREATE TABLE IF NOT EXISTS `secs`.`receipt_computer`
 (
-    `computer_id` BIGINT(20) NOT NULL,
+    `computers_id` BIGINT(20) NOT NULL,
     `receipt_id`  BIGINT(20) NOT NULL,
-    INDEX `FK_order_ref_receipt_idx` (`receipt_id` ASC) VISIBLE,
-    INDEX `FK_order_ref_computer_idx` (`computer_id` ASC) VISIBLE,
-    CONSTRAINT `FK_order_ref_computer`
-        FOREIGN KEY (`computer_id`)
+    INDEX `FK_receipt_computer_ref_receipt_idx` (`receipt_id` ASC) VISIBLE,
+    INDEX `FK_receipt_computer_ref_computer_idx` (`computers_id` ASC) VISIBLE,
+    CONSTRAINT `FK_receipt_computer_ref_computer`
+        FOREIGN KEY (`computers_id`)
             REFERENCES `secs`.`computer` (`id`),
-    CONSTRAINT `FK_order_ref_receipt`
+    CONSTRAINT `FK_receipt_computer_ref_receipt`
         FOREIGN KEY (`receipt_id`)
             REFERENCES `secs`.`receipt` (`id`)
 )
